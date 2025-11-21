@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Button } from "@/components/ui/button";
-import { IconUserFilled } from "@tabler/icons-react";
-import { IconUser } from "@tabler/icons-react";
-import { IconUserCog } from "@tabler/icons-react";
-import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

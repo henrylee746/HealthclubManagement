@@ -48,14 +48,6 @@ async function getData(): Promise<Health[]> {
       classes: 0,
       sessions: ["Yoga Class", "Upper Body PT"],
     },
-    {
-      id: "728ed52f",
-      date: new Date().toLocaleDateString("en-CA"),
-      weight: 100,
-      goal: 105,
-      classes: 0,
-      sessions: ["Yoga Class", "Upper Body PT"],
-    },
   ];
 }
 
@@ -127,8 +119,8 @@ export default function Member() {
           </form>
         </Dialog>
       </div>
-      <div className="flex w-full items-stretch mt-8 items-center justify-center gap-4">
-        <Card className="w-full max-w-sm ">
+      <div className="grid lg:grid-cols-2 sm:grid-cols-1 w-full mt-8 gap-2">
+        <Card className="w-full max-w-sm place-self-center">
           <CardHeader>
             <CardTitle className="flex gap-2 items-center">
               Profile Management
@@ -160,11 +152,37 @@ export default function Member() {
             </Button>
           </CardFooter>
         </Card>
-        <div>
+        <div className="place-self-center flex flex-col gap-8">
           <Card className="w-full max-w-sm ">
             <CardHeader>
               <CardTitle className="flex gap-2 items-center">
                 Dashboard
+                <IconDashboardFilled />
+              </CardTitle>
+              <CardDescription>
+                Check your metrics and upcoming sessions here
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground text-sm">
+                Date: {new Date().toLocaleDateString("en-CA")}
+              </p>
+              <p className="text-sm">Weight: {data[0].weight} lbs</p>
+              <Separator className="my-4" />
+              <div className="flex h-5 items-center space-x-4 text-sm">
+                <div>Weight Goal: {data[0].goal}</div>
+                <Separator orientation="vertical" />
+                <div>Classes Upcoming: {data[0].classes}</div>
+                <Separator orientation="vertical" />
+                <div>Upcoming Classes: {data[0].sessions}</div>
+              </div>
+            </CardContent>
+            <CardFooter className="flex-col gap-2"></CardFooter>
+          </Card>
+          <Card className="w-full max-w-sm ">
+            <CardHeader>
+              <CardTitle className="flex gap-2 items-center">
+                Group Class Registration
                 <IconDashboardFilled />
               </CardTitle>
               <CardDescription>
