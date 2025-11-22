@@ -13,7 +13,7 @@ import Header from "../../components/Header";
 import { IconDoor } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
 import { IconZoomCheck } from "@tabler/icons-react";
-import { Button } from "@/components/ui/button";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { sessionColumns, Session } from "./columns";
@@ -89,8 +89,21 @@ export default function Member() {
                 </div>
                 <div className="flex flex-col gap-4 mt-6">
                   <Calendar25 />
-                  <Label htmlFor="currWeight">Current Weight</Label>
-                  <Input id="currWeight" type="number" placeholder="e.g. 156" />
+                  <CardDescription>Room #</CardDescription>
+                  <RadioGroup defaultValue="comfortable">
+                    <div className="flex items-center gap-3">
+                      <RadioGroupItem value="default" id="r1" />
+                      <Label htmlFor="r1">101</Label>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <RadioGroupItem value="comfortable" id="r2" />
+                      <Label htmlFor="r2">102</Label>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <RadioGroupItem value="compact" id="r3" />
+                      <Label htmlFor="r3">103</Label>
+                    </div>
+                  </RadioGroup>
                 </div>
               </form>
             </div>
