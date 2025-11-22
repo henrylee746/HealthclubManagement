@@ -10,12 +10,15 @@ import {
 } from "@/components/ui/card";
 
 import Header from "../../components/Header";
-import { IconCalendarUser, IconZoom } from "@tabler/icons-react";
+import { IconDoor } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
 import { IconZoomCheck } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { sessionColumns, Session } from "../table-config/columns";
+import { Label } from "@/components/ui/label";
+import { sessionColumns, Session } from "./columns";
+import { DataTable } from "./data-table";
+import Calendar25 from "@/components/calendar-25";
 
 async function getSessions(): Promise<Session[]> {
   return [
@@ -25,6 +28,7 @@ async function getSessions(): Promise<Session[]> {
       title: "Yoga Session",
       capacity: 50,
       trainer: "Coach Chris",
+      room: "101",
     },
     {
       id: "728edawr",
@@ -32,6 +36,7 @@ async function getSessions(): Promise<Session[]> {
       title: "Chest Day",
       capacity: 2,
       trainer: "Instructor Mary",
+      room: "",
     },
   ];
 }
@@ -47,38 +52,47 @@ export default function Member() {
     <div className="dark min-h-screen flex flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <Header />
       <h1 className="max-w-s mb-4 text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-        Trainers
+        Admin Portal
       </h1>
-      <div className="flex w-full gap-4 flex-wrap justify-center items-center items-stretch">
-        <Card className="w-full lg:max-w-md md:max-w-md sm:max-w-sm">
+      <div className="flex w-full gap-4 flex-wrap justify-center items-center">
+        <Card className="w-full xl:max-w-xl lg:max-w-lg md:max-w-md sm:max-w-sm">
           <CardHeader>
             <CardTitle className="flex gap-2 items-center">
-              Upcoming Group Classes
-              <IconCalendarUser />
+              Room Booking
+              <IconDoor />
             </CardTitle>
             <CardDescription>
-              Filter by trainer using the dropdown below
-            </CardDescription>
-          </CardHeader>
-          <CardContent></CardContent>
-        </Card>
-        <Card className="w-full lg:max-w-md md:max-w-md sm:max-w-sm">
-          <CardHeader>
-            <CardTitle className="flex gap-2 items-center">
-              Member Search
-              <IconZoomCheck />
-            </CardTitle>
-            <CardDescription>
-              Search members by name (case-insensitive) to view their current
-              weight goal and lastly measured weight.
+              Book different rooms for the following class sessions
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex w-full max-w-sm items-center gap-2">
-              <Input type="text" placeholder="Henry Lee" />
-              <Button type="submit" variant="outline">
-                Search
-              </Button>
+            <DataTable columns={sessionColumns} data={sessions} />
+          </CardContent>
+        </Card>
+        <Card className="w-full xl:max-w-xl lg:max-w-lg md:max-w-md sm:max-w-sm">
+          <CardHeader>
+            <CardTitle className="flex gap-2 items-center">
+              Class Management
+              <IconZoomCheck />
+            </CardTitle>
+            <CardDescription>Create new sessions here</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex w-full items-center  gap-2">
+              <form className="w-full">
+                <div className="flex flex-col gap-4">
+                  <CardDescription>Basic Details</CardDescription>
+
+                  <Input id="session" type="text" placeholder="Session Name" />
+                  <Input id="capacity" type="number" placeholder="Capacity" />
+                  <Input id="trainer" type="text" placeholder="Trainer" />
+                </div>
+                <div className="flex flex-col gap-4 mt-6">
+                  <Calendar25 />
+                  <Label htmlFor="currWeight">Current Weight</Label>
+                  <Input id="currWeight" type="number" placeholder="e.g. 156" />
+                </div>
+              </form>
             </div>
           </CardContent>
         </Card>

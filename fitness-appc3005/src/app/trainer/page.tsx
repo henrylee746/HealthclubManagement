@@ -12,7 +12,7 @@ import {
 import Header from "../../components/Header";
 import { IconCalendarUser, IconZoom } from "@tabler/icons-react";
 import { DataTable } from "./data-table";
-import { sessionColumns, Session } from "../table-config/columns";
+import { sessionColumns, Session } from "./columns";
 import { useState, useEffect } from "react";
 import { IconZoomCheck } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
@@ -26,6 +26,7 @@ async function getSessions(): Promise<Session[]> {
       title: "Yoga Session",
       capacity: 50,
       trainer: "Coach Chris",
+      room: "101",
     },
     {
       id: "728edawr",
@@ -33,6 +34,7 @@ async function getSessions(): Promise<Session[]> {
       title: "Chest Day",
       capacity: 2,
       trainer: "Instructor Mary",
+      room: "",
     },
   ];
 }

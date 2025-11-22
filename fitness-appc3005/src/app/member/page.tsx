@@ -36,7 +36,7 @@ import { IconUserScan } from "@tabler/icons-react";
 import { IconDashboardFilled } from "@tabler/icons-react";
 import { IconCalendarUser } from "@tabler/icons-react";
 import { DataTable } from "./data-table";
-import { sessionColumns, Session, Health } from "../table-config/columns";
+import { sessionColumns, Session, Health } from "./columns";
 import { useState, useEffect } from "react";
 
 async function getData(): Promise<Health[]> {
@@ -60,6 +60,7 @@ async function getSessions(): Promise<Session[]> {
       title: "Yoga Session",
       capacity: 50,
       trainer: "Coach Chris",
+      room: "101",
     },
     {
       id: "728edawr",
@@ -67,6 +68,7 @@ async function getSessions(): Promise<Session[]> {
       title: "Chest Day",
       capacity: 2,
       trainer: "Instructor Mary",
+      room: "",
     },
   ];
 }
