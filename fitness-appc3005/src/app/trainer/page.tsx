@@ -9,7 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import Header from "../../components/Header";
 import { IconCalendarUser, IconZoom } from "@tabler/icons-react";
 import { DataTable } from "./data-table";
 import { sessionColumns, Session } from "./columns";
@@ -51,13 +50,12 @@ export default function Member() {
   }, []);
 
   return (
-    <div className="dark min-h-screen flex flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <Header />
+    <div className="dark h-full flex flex-1 flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <h1 className="max-w-s mb-4 text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
         Trainers
       </h1>
       <div className="flex w-full gap-4 flex-wrap justify-center items-center items-stretch">
-        <Card className="w-full lg:max-w-lg md:max-w-md sm:max-w-sm">
+        <Card className="w-full xl:max-w-xl lg:max-w-lg md:max-w-md sm:max-w-sm">
           <CardHeader>
             <CardTitle className="flex gap-2 items-center">
               Upcoming Group Classes
@@ -71,6 +69,7 @@ export default function Member() {
             <DataTable columns={sessionColumns} data={sessions} />
           </CardContent>
         </Card>
+
         <Card className="w-full lg:max-w-lg md:max-w-md sm:max-w-sm">
           <CardHeader>
             <CardTitle className="flex gap-2 items-center">

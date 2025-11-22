@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Header from "../../components/Header";
 import {
   Select,
   SelectContent,
@@ -88,8 +87,7 @@ export default function Member() {
   }, []);
 
   return (
-    <div className="dark min-h-screen flex flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <Header />
+    <div className="dark flex flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <h1 className="max-w-s mb-4 text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
         Member's Hub
       </h1>
@@ -148,7 +146,7 @@ export default function Member() {
         </Dialog>
       </div>
       <div className="flex flex-wrap items-stretch items-center justify-center w-full mt-8 mb-4 gap-8">
-        <Card className="w-full lg:max-w-md md:max-w-sm sm:max-w-sm">
+        <Card className="w-full lg:max-w-lg md:max-w-sm sm:max-w-sm">
           <CardHeader>
             <CardTitle className="flex gap-2 items-center">
               Profile Management
@@ -181,7 +179,7 @@ export default function Member() {
           </CardFooter>
         </Card>
         <div className="flex flex-col gap-6">
-          <Card className="w-full md:max-w-md lg:max-w-lg sm:max-w-sm">
+          <Card className="w-full xl:max-w-xl md:max-w-md lg:max-w-lg sm:max-w-sm">
             <CardHeader>
               <CardTitle className="flex gap-2 items-center">
                 Dashboard
@@ -211,7 +209,7 @@ export default function Member() {
             )}
             <CardFooter className="flex-col gap-2"></CardFooter>
           </Card>
-          <Card className="w-full lg:max-w-lg md:max-w-md sm:max-w-sm">
+          <Card className="w-full  2xl:max-w-2xl xl:max-w-xl lg:max-w-lg md:max-w-md sm:max-w-sm">
             <CardHeader>
               <CardTitle className="flex gap-2 items-center">
                 Group Class Registration

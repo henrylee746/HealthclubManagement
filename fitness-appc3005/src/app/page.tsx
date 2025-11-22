@@ -1,26 +1,36 @@
-import { IconUserFilled } from "@tabler/icons-react";
-import { IconUser } from "@tabler/icons-react";
-import { IconUserCog } from "@tabler/icons-react";
+import {
+  IconUserFilled,
+  IconUser,
+  IconUserCog,
+  IconBarbell,
+} from "@tabler/icons-react";
+import { Separator } from "@/components/ui/separator";
+
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Header from "../components/Header";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center">
-      <Header />
-
+    <div className="flex flex-1 flex-col h-full items-center justify-center">
       <div className="flex flex-col items-center gap-6 text-center">
-        <h1 className="max-w-s text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
+        <h1 className="max-w-2xl text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
           COMP 3005 - Fall 2025 Final Project: Henry L
         </h1>
-        <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
+        <p className="flex gap-2 items-center max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
           Health and Fitness Club Management System
+          <IconBarbell />
         </p>
+        <Separator />
+        <h3 className="max-w-lg text-2xl font-medium leading-10 tracking-tight text-black dark:text-zinc-50">
+          An application with functionality for{" "}
+          <i className="text-slate-400">members,</i>{" "}
+          <i className="text-violet-400">trainers,</i> and{" "}
+          <i className="text-blue-400">administrators.</i>
+        </h3>
       </div>
       <div className="w-full flex flex-wrap justify-center gap-8 m-4 items-stretch">
         <Card className="w-full max-w-sm">
@@ -42,6 +52,7 @@ export default function Home() {
             </CardDescription>
           </CardHeader>
         </Card>
+
         <Card className="w-full max-w-sm">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">

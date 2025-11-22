@@ -11,8 +11,8 @@ import {
 
 import Header from "../../components/Header";
 import { IconDoor } from "@tabler/icons-react";
+import { IconCirclePlusFilled } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
-import { IconZoomCheck } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
@@ -50,8 +50,7 @@ export default function Member() {
   }, []);
 
   return (
-    <div className="dark min-h-screen flex flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <Header />
+    <div className="dark  flex flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <h1 className="max-w-s mb-4 text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
         Admin Portal
       </h1>
@@ -74,7 +73,7 @@ export default function Member() {
           <CardHeader>
             <CardTitle className="flex gap-2 items-center">
               Class Management
-              <IconZoomCheck />
+              <IconCirclePlusFilled />
             </CardTitle>
             <CardDescription>Create new sessions here</CardDescription>
           </CardHeader>
