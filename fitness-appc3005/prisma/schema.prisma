@@ -3,6 +3,7 @@ generator client {
     output   = "../generated/prisma"
 }
 
+//url doesn't need to be provided anymore per Prisma 7
 datasource db {
   provider = "postgresql"
 }
