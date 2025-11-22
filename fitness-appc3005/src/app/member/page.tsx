@@ -34,8 +34,9 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { IconUserScan } from "@tabler/icons-react";
 import { IconDashboardFilled } from "@tabler/icons-react";
+import { IconCalendarUser } from "@tabler/icons-react";
 import { DataTable } from "./data-table";
-import { columns, Health } from "./columns";
+import { sessionColumns, Session, Health } from "./columns";
 import { useState, useEffect } from "react";
 
 async function getData(): Promise<Health[]> {
@@ -51,12 +52,25 @@ async function getData(): Promise<Health[]> {
   ];
 }
 
+async function getSessions(): Promise<Session[]> {
+  return [
+    {
+      id: "728ed52f",
+      date: new Date().toLocaleDateString("en-CA"),
+      title: "Yoga Session",
+      capacity: 50,
+    },
+  ];
+}
+
 export default function Member() {
   const [data, setData] = useState<Health[]>([]);
+  const [sessions, setSessions] = useState<Session[]>([]);
   const [member, setMember] = useState("user1");
 
   useEffect(() => {
     getData().then(setData);
+    getSessions().then(setSessions);
   }, []);
 
   return (
@@ -119,8 +133,8 @@ export default function Member() {
           </form>
         </Dialog>
       </div>
-      <div className="grid lg:grid-cols-2 sm:grid-cols-1 w-full mt-8 gap-2">
-        <Card className="w-full max-w-sm place-self-center">
+      <div className="flex flex-wrap items-stretch items-center justify-center w-full mt-8 mb-4 gap-8">
+        <Card className="w-full lg:max-w-md md:max-w-sm sm:max-w-sm">
           <CardHeader>
             <CardTitle className="flex gap-2 items-center">
               Profile Management
@@ -152,8 +166,8 @@ export default function Member() {
             </Button>
           </CardFooter>
         </Card>
-        <div className="place-self-center flex flex-col gap-8">
-          <Card className="w-full max-w-sm ">
+        <div className="flex flex-col gap-8">
+          <Card className="w-full md:max-w-md lg:max-w-2xl sm:max-w-sm">
             <CardHeader>
               <CardTitle className="flex gap-2 items-center">
                 Dashboard
@@ -163,34 +177,38 @@ export default function Member() {
                 Check your metrics and upcoming sessions here
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground text-sm">
-                Date: {new Date().toLocaleDateString("en-CA")}
-              </p>
-              <p className="text-sm">Weight: {data[0].weight} lbs</p>
-              <Separator className="my-4" />
-              <div className="flex h-5 items-center space-x-4 text-sm">
-                <div>Weight Goal: {data[0].goal}</div>
-                <Separator orientation="vertical" />
-                <div>Classes Upcoming: {data[0].classes}</div>
-                <Separator orientation="vertical" />
-                <div>Upcoming Classes: {data[0].sessions}</div>
-              </div>
-            </CardContent>
+            {data.length !== 0 ? (
+              <CardContent>
+                <p className="text-muted-foreground text-sm">
+                  Date: {new Date().toLocaleDateString("en-CA")}
+                </p>
+                <p className="text-sm">Weight: {data[0].weight} lbs</p>
+                <Separator className="my-4" />
+                <div className="flex h-5 items-center space-x-4 text-sm">
+                  <div>Weight Goal: {data[0].goal}</div>
+                  <Separator orientation="vertical" />
+                  <div>Classes Upcoming: {data[0].classes}</div>
+                  <Separator orientation="vertical" />
+                  <div>Upcoming Classes: {data[0].sessions.join(", ")}</div>
+                </div>
+              </CardContent>
+            ) : (
+              ""
+            )}
             <CardFooter className="flex-col gap-2"></CardFooter>
           </Card>
-          <Card className="w-full max-w-sm ">
+          <Card className="w-full lg:max-w-2xl md:max-w-md sm:max-w-sm">
             <CardHeader>
               <CardTitle className="flex gap-2 items-center">
                 Group Class Registration
-                <IconDashboardFilled />
+                <IconCalendarUser />
               </CardTitle>
               <CardDescription>
-                Check your metrics and upcoming sessions here
+                Register for upcoming group sessions here
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <DataTable columns={columns} data={data} />
+              <DataTable columns={sessionColumns} data={sessions} />
             </CardContent>
             <CardFooter className="flex-col gap-2"></CardFooter>
           </Card>

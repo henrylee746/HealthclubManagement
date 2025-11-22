@@ -1,7 +1,10 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
+import { Checkbox } from "@/components/ui/checkbox";
 
+/*For the Dashboard cardboard, no column definition needed 
+as it only uses a Separator component*/
 export type Health = {
   id: string;
   date: string;
@@ -11,25 +14,35 @@ export type Health = {
   sessions: string[];
 };
 
-export const columns: ColumnDef<Health>[] = [
+/*For Sessions*/
+export type Session = {
+  id: string;
+  date: string;
+  title: string;
+  capacity: number;
+};
+
+export const sessionColumns: ColumnDef<Session>[] = [
   {
-    accessorKey: "date",
-    header: "Date",
-  },
-  {
-    accessorKey: "weight",
-    header: "Curr. Weight (lbs)",
-  },
-  {
-    accessorKey: "goal",
-    header: "Weight Goal",
-  },
-  {
-    accessorKey: "classes",
-    header: "Past Classes",
-  },
-  {
-    accessorKey: "sessions",
-    header: "Upcoming Sessions",
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
   },
 ];
