@@ -17,10 +17,7 @@ export default function MemberSelect({ members }: any) {
     router.push(`/member/${id}`);
   };
   return (
-    <Select
-      defaultValue={members[0].id}
-      onValueChange={(value) => handleChange(value)}
-    >
+    <Select onValueChange={(value) => handleChange(value)}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Select a member" />
       </SelectTrigger>

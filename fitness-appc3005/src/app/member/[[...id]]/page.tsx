@@ -14,16 +14,21 @@ import prisma from "../../../../lib/prisma";
 import { IconCalendarUser } from "@tabler/icons-react";
 import { DataTable } from "./data-table";
 import { sessionColumns, Session, Health } from "./columns";
-import MemberRegistration from "./components/MemberRegistration";
-import MemberSelect from "./components/MemberSelect";
-import ProfileManagement from "./components/ProfileManagement";
-import MemberDashboard from "./components/MemberDashboard";
+import MemberRegistration from "./MemberRegistration";
+import MemberSelect from "./MemberSelect";
+import ProfileManagement from "./ProfileManagement";
+import MemberDashboard from "./MemberDashboard";
+import DefaultPage from "./DefaultPage";
 
-export default async function Members({ params }: { params: { id?: string } }) {
+export default async function Members({
+  params,
+}: {
+  params: Promise<{ id: string[] | undefined }>;
+}) {
   const members = await prisma.member.findMany();
-
-  console.log(params.id);
-
+  const { id } = await params;
+  console.log(id);
+  console.log(members[0]);
   return (
     <div className="dark:bg-stone-950 h-full flex flex-col items-center justify-center bg-zinc-50 font-sans">
       <h1 className="max-w-s mb-4 text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
@@ -35,26 +40,32 @@ export default async function Members({ params }: { params: { id?: string } }) {
         <MemberRegistration />
       </div>
 
-      <div className="flex flex-wrap items-center justify-center w-full mt-8 mb-4 gap-8">
-        <ProfileManagement />
+      {id ? (
+        <div className="flex flex-wrap items-center justify-center w-full mt-8 mb-4 gap-8">
+          <ProfileManagement />
 
-        <div className="flex flex-col gap-6">
-          <Card className="w-full 2xl:max-w-2xl xl:max-w-xl lg:max-w-lg md:max-w-md sm:max-w-sm">
-            <CardHeader>
-              <CardTitle className="flex gap-2 items-center">
-                Group Class Registration <IconCalendarUser />
-              </CardTitle>
-              <CardDescription>
-                Register for upcoming group sessions here
-              </CardDescription>
-            </CardHeader>
-            <CardContent></CardContent>
-            <CardFooter className="flex-col gap-2">
-              <Button className="w-full">Register</Button>
-            </CardFooter>
-          </Card>
+          <div className="flex flex-col gap-6">
+            <MemberDashboard id={id?.[0]} />
+
+            <Card className="w-full 2xl:max-w-2xl xl:max-w-xl lg:max-w-lg md:max-w-md sm:max-w-sm">
+              <CardHeader>
+                <CardTitle className="flex gap-2 items-center">
+                  Group Class Registration <IconCalendarUser />
+                </CardTitle>
+                <CardDescription>
+                  Register for upcoming group sessions here
+                </CardDescription>
+              </CardHeader>
+              <CardContent></CardContent>
+              <CardFooter className="flex-col gap-2">
+                <Button className="w-full">Register</Button>
+              </CardFooter>
+            </Card>
+          </div>
         </div>
-      </div>
+      ) : (
+        <DefaultPage />
+      )}
     </div>
   );
 }
