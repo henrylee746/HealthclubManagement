@@ -31,17 +31,20 @@ import React from "react";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  filterSession: (name: string) => void;
+  trainers: Object[];
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  filterSession,
+  trainers,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
-  const [trainer, setTrainer] = React.useState("trainer1");
 
   const table = useReactTable({
     data,
@@ -56,23 +59,24 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  const handleFilter = async (value: string) => {
+    const filtered = await filterSession(value);
+    console.log(filtered);
+  };
+
   return (
     <div>
       <div className="flex items-center py-4">
-        <Select
-          onValueChange={(value) =>
-            table.getColumn("trainer")?.setFilterValue(value)
-          }
-        >
+        <Select onValueChange={(value) => handleFilter(value)}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select a trainer" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Trainers</SelectLabel>
-              {/* Trainer's values should be their names*/}
-              <SelectItem value="Coach Chris">Coach Chris</SelectItem>
-              <SelectItem value="Instructor Mary">Instructor Mary</SelectItem>
+              {data.map((session) => (
+                <SelectItem value="Coach Chris">Coach Chris</SelectItem>
+              ))}
             </SelectGroup>
           </SelectContent>
         </Select>

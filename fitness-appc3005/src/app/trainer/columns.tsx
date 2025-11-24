@@ -15,21 +15,19 @@ export type Health = {
 };
 
 export type Session = {
-  id: string;
-  date: string;
-  title: string;
   capacity: number;
-  trainer: string;
-  room: string;
+  dateTime: Date;
+  id: number;
+  name: string;
+  room: object;
+  roomId: number;
+  trainer: object;
+  trainerId: number;
 };
 
 export const sessionColumns: ColumnDef<Session>[] = [
   {
-    accessorKey: "date",
-    header: "Date",
-  },
-  {
-    accessorKey: "title",
+    accessorKey: "name",
     header: "Session",
   },
   {
@@ -37,11 +35,15 @@ export const sessionColumns: ColumnDef<Session>[] = [
     header: "Space",
   },
   {
-    accessorKey: "trainer",
+    accessorKey: "trainer.name",
     header: "Trainer",
   },
   {
-    accessorKey: "room",
+    accessorKey: "room.name",
     header: "Room",
+  },
+  {
+    accessorKey: "dateTime",
+    header: "Date",
   },
 ];

@@ -16,7 +16,7 @@ import { Session } from "./types";
 
 export default function GroupClass({ sessions }: { sessions: Session[] }) {
   return (
-    <Card className="w-full 2xl:max-w-2xl xl:max-w-xl lg:max-w-lg md:max-w-md sm:max-w-sm">
+    <Card className="w-full 2xl:max-w-5xl xl:max-w-xl lg:max-w-lg md:max-w-md sm:max-w-sm">
       <CardHeader>
         <CardTitle className="flex gap-2 items-center">
           Group Class Registration <IconCalendarUser />

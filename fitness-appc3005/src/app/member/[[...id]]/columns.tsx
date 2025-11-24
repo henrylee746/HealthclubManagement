@@ -31,10 +31,6 @@ export const sessionColumns: ColumnDef<Session>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "dateTime",
-    header: "Date",
-  },
-  {
     accessorKey: "name",
     header: "Session",
   },
@@ -49,5 +45,9 @@ export const sessionColumns: ColumnDef<Session>[] = [
   {
     accessorKey: "room.name",
     header: "Room",
+  },
+  {
+    accessorKey: "dateTime",
+    header: "Date",
   },
 ];

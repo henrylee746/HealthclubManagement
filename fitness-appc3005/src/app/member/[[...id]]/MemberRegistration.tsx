@@ -17,6 +17,7 @@ import {
 import prisma from "../../../../lib/prisma";
 
 export default function MemberRegistration() {
+  /*
   const handleSubmit = async (formData: FormData) => {
     "use server";
 
@@ -28,11 +29,12 @@ export default function MemberRegistration() {
       data: { email, firstName, lastName },
     });
   };
+  */
 
   return (
     <Dialog>
       {/* SERVER ACTION → assign to `action` */}
-      <form action={handleSubmit}>
+      <form>
         <DialogTrigger asChild>
           <Button variant="outline">Register New Member</Button>
         </DialogTrigger>

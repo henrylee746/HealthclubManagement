@@ -28,6 +28,21 @@ export default async function MemberDashboard({ id }: { id?: string }) {
   const currWeight = member?.metrics[member.metrics.length - 1].weight;
   const lastSubmitted = member?.metrics[member.metrics.length - 1].timestamp;
   const weightGoal = member?.metrics[member.metrics.length - 1].weightGoal;
+  const pastClasses = member?.bookings.map((booking) => (
+    <div key={booking.sessionId}>
+      {booking.session.dateTime < new Date() ? (
+        <li className="list-disc">{booking.session.name}</li>
+      ) : null}
+    </div>
+  ));
+  const upcomingClasses = member?.bookings.map((booking) => (
+    <div key={booking.sessionId}>
+      {booking.session.dateTime > new Date() ? (
+        <li className="list-disc">{booking.session.name}</li>
+      ) : null}
+    </div>
+  ));
+
   return (
     <Card className="w-full xl:max-w-xl md:max-w-md lg:max-w-lg sm:max-w-sm">
       <CardHeader>
@@ -50,29 +65,17 @@ export default async function MemberDashboard({ id }: { id?: string }) {
         <div className="flex gap-2 h-8 items-center justify-center space-x-4 text-xs lg:text-sm">
           <div className="text-center">
             Weight Target:{" "}
-            <p className="font-bold leading-5"> {weightGoal}lbs </p>
+            <p className="font-bold leading-5"> {weightGoal} lbs </p>
           </div>
           <Separator orientation="vertical" />
           <ul className="p-2">
-            <p className="font-bold">Past classes: </p>
-            {member?.bookings.map((booking) => (
-              <div key={booking.sessionId}>
-                {booking.session.dateTime < new Date() ? (
-                  <li className="list-disc">{booking.session.name}</li>
-                ) : null}
-              </div>
-            ))}
+            <p className="font-bold">Past classes:</p>
+            {pastClasses ?? "N/A"}
           </ul>
           <Separator orientation="vertical" />
           <div>
             <p className="font-bold leading-5">Upcoming Classes:</p>
-            {member?.bookings.map((booking) => (
-              <div key={booking.sessionId}>
-                {booking.session.dateTime > new Date() ? (
-                  <li className="list-disc">{booking.session.name}</li>
-                ) : null}
-              </div>
-            ))}
+            {upcomingClasses ?? "N/A"}
           </div>
         </div>
       </CardContent>
