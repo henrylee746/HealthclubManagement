@@ -11,11 +11,9 @@ const prisma = new PrismaClient({
 });
 
 async function main() {
-  console.log("🌱 Seeding database...");
+  console.log("Seeding database...");
 
-  // --------------------------------------------------
   // Members
-  // --------------------------------------------------
   const members = await prisma.member.createMany({
     data: [
       { firstName: "Henry", lastName: "Lee", email: "henry@example.com" },
@@ -27,9 +25,7 @@ async function main() {
   // Fetch IDs (createMany doesn't return inserted rows)
   const createdMembers = await prisma.member.findMany();
 
-  // --------------------------------------------------
   // Trainers
-  // --------------------------------------------------
   const trainers = await prisma.trainer.createMany({
     data: [
       { name: "John Peterson", email: "johnp@example.com" },
@@ -39,9 +35,7 @@ async function main() {
 
   const createdTrainers = await prisma.trainer.findMany();
 
-  // --------------------------------------------------
   // Rooms
-  // --------------------------------------------------
   const rooms = await prisma.room.createMany({
     data: [
       { name: "Studio A", capacity: 20 },
@@ -52,9 +46,7 @@ async function main() {
 
   const createdRooms = await prisma.room.findMany();
 
-  // --------------------------------------------------
   // Sessions
-  // --------------------------------------------------
   const sessions = await prisma.session.createMany({
     data: [
       {
@@ -90,9 +82,7 @@ async function main() {
 
   const createdSessions = await prisma.session.findMany();
 
-  // --------------------------------------------------
   // Bookings (avoid duplicates due to @@unique constraint)
-  // --------------------------------------------------
   await prisma.booking.createMany({
     data: [
       {
@@ -115,9 +105,7 @@ async function main() {
     skipDuplicates: true,
   });
 
-  // --------------------------------------------------
   // Health Metrics
-  // --------------------------------------------------
   await prisma.healthMetric.createMany({
     data: [
       {
@@ -144,7 +132,7 @@ async function main() {
     ],
   });
 
-  console.log("✔️ Database seed completed.");
+  console.log("Database seed completed.");
 }
 
 main()
