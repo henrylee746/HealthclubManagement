@@ -18,7 +18,7 @@ export default function MemberSearch() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    if (!query) return;
     const res = await fetch("/api/member/search", {
       method: "POST",
       body: JSON.stringify({ name: query }),
@@ -44,7 +44,7 @@ export default function MemberSearch() {
             weight goal and last measured weight.
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col gap-4">
+        <CardContent className="flex flex-col gap-4 p-4">
           <div className="flex gap-2">
             <Input
               type="text"
@@ -59,10 +59,18 @@ export default function MemberSearch() {
 
           {/* Render results */}
           {results.length > 0 && (
-            <ul>
+            <ul className="p-4">
               {results.map((member) => (
-                <li key={member.id}>
+                <li key={member.id} className="list-disc py-2">
                   {member.firstName} {member.lastName} — {member.email}
+                  <p className="text-muted-foreground text-sm">
+                    Weight: {member?.metrics[member.metrics.length - 1].weight}
+                  </p>
+                  <p className="text-muted-foreground text-sm">
+                    {" "}
+                    Weight Target:{" "}
+                    {member?.metrics[member.metrics.length - 1].weightGoal}
+                  </p>
                 </li>
               ))}
             </ul>

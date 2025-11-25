@@ -50,9 +50,16 @@ export function DataTable<TData extends WithTrainer, TValue>({
   );
   const [filteredData, setFilteredData] = React.useState(data);
 
-  const handleFilter = (value: string) => {
-    const result = data.filter((session) => session.trainer.name === value);
-    setFilteredData(result);
+  const handleFilter = async (value: string) => {
+    const res = await fetch("/api/trainer/search", {
+      method: "POST",
+      body: JSON.stringify(value === "All" ? { id: "" } : { id: value }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    setFilteredData(data);
   };
 
   const table = useReactTable({
@@ -72,7 +79,7 @@ export function DataTable<TData extends WithTrainer, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-2">
         <Select onValueChange={handleFilter}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select a trainer" />
@@ -80,8 +87,9 @@ export function DataTable<TData extends WithTrainer, TValue>({
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Trainers</SelectLabel>
+              <SelectItem value="All">All</SelectItem>
               {trainers.map((trainer) => (
-                <SelectItem key={trainer.id} value={trainer.name}>
+                <SelectItem key={trainer.id} value={String(trainer.id)}>
                   {trainer.name}
                 </SelectItem>
               ))}

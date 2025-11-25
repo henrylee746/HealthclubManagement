@@ -3,14 +3,25 @@ import prisma from "../../../../../lib/prisma";
 export async function POST(req: Request) {
   try {
     const { name } = await req.json(); // parse JSON from request body
+    if (!name) {
+      return new Response(JSON.stringify([]), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    } //There is also protection in the frontend using
+    //if (!query) return;
+
     const [firstName, lastName] = [name.split(" ")[0], name.split(" ")[1]];
     console.log(firstName, lastName);
     const members = await prisma.member.findMany({
       where: {
-        OR: [
+        AND: [
           { firstName: { contains: firstName, mode: "insensitive" } },
           { lastName: { contains: lastName, mode: "insensitive" } },
         ],
+      },
+      include: {
+        metrics: true,
       },
     });
 
