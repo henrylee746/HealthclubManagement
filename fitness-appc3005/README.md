@@ -2,7 +2,7 @@ This is a project for COMP3005 for the Fall 2025 Semester - done in Next.js w/ P
 
 ## Getting Started
 
-First, once you've cloned the repo, install all dependicies using:
+First, once you've cloned the repo, install all dependencies using:
 
 npm i or npm install (or whicever package manager you prefer, I use pnpm). 
 
