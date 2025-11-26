@@ -42,5 +42,5 @@ export async function createSession(formData: FormData) {
     },
   });
 
-  revalidatePath("/sessions");
+  revalidatePath("/admin");
 }
