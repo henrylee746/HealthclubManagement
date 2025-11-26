@@ -13,7 +13,24 @@ import { IconZoomCheck } from "@tabler/icons-react";
 import React, { useState } from "react";
 
 export default function MemberSearch() {
-  const [results, setResults] = useState<any[]>([]);
+  type Metric = {
+    id: number;
+    memberId: number;
+    timestamp: Date;
+    weight: number;
+    weightGoal: number;
+  };
+
+  type Member = {
+    email: string;
+    firstName: string;
+    lastName: string;
+    id: number;
+    metrics: Metric[];
+    registeredAt: Date;
+  };
+
+  const [results, setResults] = useState<Member[]>([]);
   const [query, setQuery] = useState("");
 
   //async function for looking up member by name (calls /api/member/search)

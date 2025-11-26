@@ -1,24 +1,43 @@
-import prisma from "../../../../lib/prisma";
-import MemberRegistration from "./MemberRegistration";
-import MemberSelect from "./MemberSelect";
-import ProfileManagement from "./ProfileManagement";
-import MemberDashboard from "./MemberDashboard";
-import GroupClass from "../_components/GroupClass";
-import DefaultPage from "../_components/DefaultPage";
+import prisma from "@/lib/prisma";
+import MemberRegistration from "../(components)/MemberRegistration";
+import MemberSelect from "../(components)/MemberSelect";
+import ProfileManagement from "../(components)/ProfileManagement";
+import MemberDashboard from "../(components)/MemberDashboard";
+import GroupClass from "../(components)/GroupClass";
+import DefaultPage from "../(components)/DefaultPage";
 
 export default async function Members({
   params,
 }: {
   params: Promise<{ id: string[] | undefined }>;
 }) {
+  const { id } = await params;
+
+  /*To get initial list of members for dropdown*/
   const members = await prisma.member.findMany();
+  const memberId = Number(id);
+  const member = await prisma.member.findUnique({
+    where: { id: memberId },
+    include: {
+      metrics: true,
+      bookings: {
+        include: {
+          session: true,
+        },
+      },
+    },
+  });
   const sessions = await prisma.session.findMany({
+    where: {
+      dateTime: {
+        gte: new Date(),
+      },
+    },
     include: {
       room: true,
       trainer: true,
     },
   });
-  const { id } = await params;
   return (
     <div
       className={`dark:bg-stone-950 h-full flex flex-col items-center ${
@@ -39,9 +58,9 @@ export default async function Members({
           <ProfileManagement />
 
           <div className="flex flex-col gap-6">
-            <MemberDashboard id={id?.[0]} />
+            <MemberDashboard member={member} />
 
-            <GroupClass sessions={sessions} />
+            <GroupClass sessions={sessions} member={member} />
           </div>
         </div>
       ) : (

@@ -1,5 +1,4 @@
-import prisma from "../../../../../lib/prisma";
-
+import prisma from "@/lib/prisma";
 /*Member Search Functionality in Trainers tab*/
 export async function POST(req: Request) {
   try {

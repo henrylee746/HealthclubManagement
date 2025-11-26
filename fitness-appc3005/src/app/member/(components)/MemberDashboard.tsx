@@ -9,33 +9,21 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import prisma from "../../../../lib/prisma";
+import prisma from "@/lib/prisma";
 
-export default async function MemberDashboard({ id }: { id?: string }) {
-  const memberId = Number(id);
-  const member = await prisma.member.findUnique({
-    where: { id: memberId },
-    include: {
-      metrics: true,
-      bookings: {
-        include: {
-          session: true,
-        },
-      },
-    },
-  });
+export default async function MemberDashboard({ member }: { member: any }) {
   console.log(member);
   const currWeight = member?.metrics[member.metrics.length - 1].weight;
   const lastSubmitted = member?.metrics[member.metrics.length - 1].timestamp;
   const weightGoal = member?.metrics[member.metrics.length - 1].weightGoal;
-  const pastClasses = member?.bookings.map((booking) => (
+  const pastClasses = member?.bookings.map((booking: any) => (
     <div key={booking.sessionId}>
       {booking.session.dateTime < new Date() ? (
         <li className="list-disc">{booking.session.name}</li>
       ) : null}
     </div>
   ));
-  const upcomingClasses = member?.bookings.map((booking) => (
+  const upcomingClasses = member?.bookings.map((booking: any) => (
     <div key={booking.sessionId}>
       {booking.session.dateTime > new Date() ? (
         <li className="list-disc">{booking.session.name}</li>
@@ -62,13 +50,13 @@ export default async function MemberDashboard({ id }: { id?: string }) {
           {new Date(lastSubmitted ?? new Date()).toLocaleDateString("en-CA")}
         </p>
         <Separator className="my-4 mb-6" />
-        <div className="flex gap-2 h-8 items-center justify-center space-x-4 text-xs lg:text-sm">
+        <div className="flex h-16 items-center justify-center space-x-6 text-xs lg:text-sm">
           <div className="text-center">
             Weight Target:{" "}
             <p className="font-bold leading-5"> {weightGoal} lbs </p>
           </div>
           <Separator orientation="vertical" />
-          <ul className="p-2">
+          <ul className="px-2">
             <p className="font-bold">Past classes:</p>
             {pastClasses ?? "N/A"}
           </ul>

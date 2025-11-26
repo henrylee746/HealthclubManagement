@@ -14,7 +14,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import prisma from "../../../../lib/prisma";
+import prisma from "../../../lib/prisma";
 
 export default function MemberRegistration() {
   /*

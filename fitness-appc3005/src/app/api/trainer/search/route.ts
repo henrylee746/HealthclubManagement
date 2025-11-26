@@ -1,5 +1,4 @@
-import prisma from "../../../../../lib/prisma";
-
+import prisma from "@/lib/prisma";
 /*Filters Sessions by Trainer*/
 export async function POST(req: Request) {
   try {

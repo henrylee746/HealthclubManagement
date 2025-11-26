@@ -1,5 +1,5 @@
-import GroupClass from "./_components/GroupClass";
-import MemberSearch from "./_components/MemberSearch";
+import GroupClass from "./(components)/GroupClass";
+import MemberSearch from "./(components)/MemberSearch";
 
 export default async function Member() {
   return (

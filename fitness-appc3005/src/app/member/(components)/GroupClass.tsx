@@ -14,7 +14,20 @@ import { DataTable } from "./data-table";
 import { sessionColumns } from "./columns";
 import { Session } from "../[[...id]]/types";
 
-export default function GroupClass({ sessions }: { sessions: Session[] }) {
+export default function GroupClass({
+  sessions,
+  member,
+}: {
+  sessions: Session[];
+  member: any;
+}) {
+  /*Filters only sessions that the member has not registered for yet*/
+  const sessionIds = member.bookings.map((booking: any) => booking.sessionId);
+  const filteredSessions = sessions.filter(
+    (session) => !sessionIds.includes(session.id)
+  );
+
+  console.log(filteredSessions);
   return (
     <Card className="w-full 2xl:max-w-5xl xl:max-w-xl lg:max-w-lg md:max-w-md sm:max-w-sm">
       <CardHeader>
@@ -26,7 +39,7 @@ export default function GroupClass({ sessions }: { sessions: Session[] }) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <DataTable columns={sessionColumns} data={sessions} />
+        <DataTable columns={sessionColumns} data={filteredSessions} />
       </CardContent>
       <CardFooter className="flex-col gap-2">
         <Button className="w-full">Register</Button>
