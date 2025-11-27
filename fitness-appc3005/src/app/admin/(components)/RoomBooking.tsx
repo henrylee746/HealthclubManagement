@@ -11,10 +11,14 @@ import {
 
 import { IconDoor } from "@tabler/icons-react";
 import { sessionColumns } from "./columns";
-import { Session } from "@/lib/types";
+import { SessionExtended } from "@/lib/types";
 import { DataTable } from "./data-table";
 
-export default function RoomBooking({ sessions }: { sessions: Session[] }) {
+export default function RoomBooking({
+  sessions,
+}: {
+  sessions: SessionExtended[];
+}) {
   return (
     <Card className="w-full xl:max-w-xl lg:max-w-lg md:max-w-md sm:max-w-sm">
       <CardHeader>

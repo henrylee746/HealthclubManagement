@@ -15,16 +15,16 @@ import { Booking } from "@/lib/types";
 export default async function MemberDashboard({
   member,
 }: {
-  member: MemberExtended;
+  member: MemberExtended | null | undefined;
 }) {
   console.log(member);
   const currWeight = member?.metrics[member.metrics.length - 1]?.weight;
   const lastSubmitted = member?.metrics[member.metrics.length - 1]?.timestamp;
   const weightGoal = member?.metrics[member.metrics.length - 1]?.weightGoal;
-  const pastClasses =
-    member?.bookings.filter(
-      (booking: Booking) => booking.session.dateTime < new Date()
-    ).length > 0
+  const pastClasses = member
+    ? member?.bookings.filter(
+        (booking: Booking) => booking.session.dateTime < new Date()
+      ).length > 0
       ? member?.bookings.map((booking: Booking) => (
           <div key={booking.sessionId}>
             {booking.session.dateTime < new Date() ? (
@@ -32,11 +32,12 @@ export default async function MemberDashboard({
             ) : null}
           </div>
         ))
-      : "N/A";
-  const upcomingClasses =
-    member?.bookings.filter(
-      (booking: Booking) => booking.session.dateTime > new Date()
-    ).length > 0
+      : "N/A"
+    : null;
+  const upcomingClasses = member
+    ? member?.bookings.filter(
+        (booking: Booking) => booking.session.dateTime > new Date()
+      ).length > 0
       ? member?.bookings.map((booking: Booking) => (
           <div key={booking.sessionId}>
             {booking.session.dateTime > new Date() ? (
@@ -44,7 +45,8 @@ export default async function MemberDashboard({
             ) : null}
           </div>
         ))
-      : "N/A";
+      : "N/A"
+    : null;
 
   return (
     <Card className="w-full xl:max-w-xl md:max-w-md lg:max-w-lg sm:max-w-sm">

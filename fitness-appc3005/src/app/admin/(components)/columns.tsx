@@ -24,9 +24,9 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { updateSessionRoom } from "@/lib/actions";
-import { Session } from "@/lib/types";
+import { SessionExtended } from "@/lib/types";
 
-export const sessionColumns: ColumnDef<Session>[] = [
+export const sessionColumns: ColumnDef<SessionExtended>[] = [
   {
     id: "actions",
     cell: ({ row }) => {

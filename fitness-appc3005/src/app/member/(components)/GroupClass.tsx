@@ -12,7 +12,7 @@ import {
 import { IconCalendarUser } from "@tabler/icons-react";
 import { DataTable } from "./data-table";
 import { sessionColumns } from "./columns";
-import { MemberExtended, Session } from "@/lib/types";
+import { MemberExtended, Session, SessionExtended } from "@/lib/types";
 import { registerSessions } from "@/lib/actions";
 import { useState } from "react";
 import { Booking } from "@/lib/types";
@@ -21,13 +21,13 @@ export default function GroupClass({
   sessions,
   member,
 }: {
-  sessions: Session[];
-  member: MemberExtended;
+  sessions: SessionExtended[];
+  member: MemberExtended | null | undefined;
 }) {
   /*Filters only sessions that the member has not registered for yet*/
-  const sessionIds = member.bookings.map(
-    (booking: Booking) => booking.sessionId
-  );
+  const sessionIds = member
+    ? member.bookings.map((booking: Booking) => booking.sessionId)
+    : [];
   const filteredSessions = sessions.filter(
     (session) => !sessionIds.includes(session.id)
   );
@@ -52,7 +52,7 @@ export default function GroupClass({
           {selectedIds.map((id) => (
             <input key={id} type="hidden" name="sessionIds" value={id} />
           ))}
-          <input type="hidden" name="memberId" value={String(member.id)} />
+          <input type="hidden" name="memberId" value={String(member?.id)} />
           <Button className="w-full mt-6">Register</Button>
         </form>
       </CardContent>

@@ -4,7 +4,7 @@ export type Room = {
   name: string;
 };
 
-export type Session = {
+export type SessionExtended = {
   capacity: number;
   dateTime: Date;
   id: number;
@@ -15,10 +15,19 @@ export type Session = {
   trainerId: number;
 };
 
+export type Session = {
+  capacity: number;
+  dateTime: Date;
+  id: number;
+  name: string;
+  roomId: number;
+  trainerId: number;
+};
+
 export type Booking = {
   sessionId: number;
   memberId: number;
-  session: Session;
+  session: Session | SessionExtended;
   id: number;
   createdAt: Date;
 };

@@ -5,9 +5,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 /*For the Dashboard cardboard, no column definition needed 
 as it only uses a Separator*/
-import { Session } from "@/lib/types";
+import { SessionExtended } from "@/lib/types";
 
-export const sessionColumns: ColumnDef<Session>[] = [
+export const sessionColumns: ColumnDef<SessionExtended>[] = [
   {
     id: "select",
     header: ({ table }) => (
