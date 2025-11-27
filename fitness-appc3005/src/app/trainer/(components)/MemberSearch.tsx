@@ -16,6 +16,7 @@ import { MemberExtendedMetrics } from "@/lib/types";
 export default function MemberSearch() {
   const [results, setResults] = useState<MemberExtendedMetrics[]>([]);
   const [query, setQuery] = useState("");
+  const [notFound, setNotFound] = useState("");
 
   //async function for looking up member by name (calls /api/member/search)
   /*would normally use this as a server action but the api route 
@@ -33,7 +34,13 @@ export default function MemberSearch() {
 
     const data = await res.json();
     console.log(data);
-    setResults(data);
+
+    if (data.length === 0) {
+      setNotFound("No results found.");
+    } else {
+      setResults(data);
+      setNotFound("");
+    }
   };
 
   return (
@@ -62,7 +69,7 @@ export default function MemberSearch() {
           </div>
 
           {/* Render results */}
-          {results.length > 0 && (
+          {results.length > 0 ? (
             <ul className="p-4">
               {results.map((member) => (
                 <li key={member.id} className="list-disc py-2">
@@ -81,6 +88,8 @@ export default function MemberSearch() {
                 </li>
               ))}
             </ul>
+          ) : (
+            <p className="text-muted-foreground text-sm">{notFound}</p>
           )}
         </CardContent>
       </form>

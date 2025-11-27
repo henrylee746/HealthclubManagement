@@ -1,9 +1,16 @@
+export type Room = {
+  capacity: number;
+  id: number;
+  name: string;
+};
+
 export type Session = {
   capacity: number;
   dateTime: Date;
   id: number;
   name: string;
-  room: object;
+  room: Room;
+  trainer: Trainer;
   roomId: number;
   trainerId: number;
 };
