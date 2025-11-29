@@ -56,7 +56,8 @@ export const ModelName = {
   Room: 'Room',
   Session: 'Session',
   Booking: 'Booking',
-  HealthMetric: 'HealthMetric'
+  HealthMetric: 'HealthMetric',
+  MemberInfo: 'MemberInfo'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -135,6 +136,17 @@ export const HealthMetricScalarFieldEnum = {
 } as const
 
 export type HealthMetricScalarFieldEnum = (typeof HealthMetricScalarFieldEnum)[keyof typeof HealthMetricScalarFieldEnum]
+
+
+export const MemberInfoScalarFieldEnum = {
+  weight: 'weight',
+  weightGoal: 'weightGoal',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  email: 'email'
+} as const
+
+export type MemberInfoScalarFieldEnum = (typeof MemberInfoScalarFieldEnum)[keyof typeof MemberInfoScalarFieldEnum]
 
 
 export const SortOrder = {

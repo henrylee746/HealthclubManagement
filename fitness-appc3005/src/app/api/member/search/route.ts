@@ -12,15 +12,12 @@ export async function POST(req: Request) {
     //if (!query) return;
 
     const [firstName, lastName] = [name.split(" ")[0], name.split(" ")[1]];
-    const members = await prisma.member.findMany({
+    const members = await prisma.memberInfo.findMany({
       where: {
         AND: [
           { firstName: { equals: firstName, mode: "insensitive" } },
           { lastName: { equals: lastName, mode: "insensitive" } },
         ],
-      },
-      include: {
-        metrics: true,
       },
     });
 

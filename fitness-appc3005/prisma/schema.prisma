@@ -1,6 +1,8 @@
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
+  previewFeatures = ["views"]
+
 }
 
 datasource db {
@@ -76,4 +78,12 @@ model HealthMetric {
   //Would be good for fetching metrics by date
   //Or a list of ordered historical metrics
 
+}
+
+view MemberInfo{
+  weight Int
+  weightGoal Int
+  firstName String
+  lastName String
+  email String
 }

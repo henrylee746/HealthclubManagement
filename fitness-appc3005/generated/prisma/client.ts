@@ -69,3 +69,8 @@ export type Booking = Prisma.BookingModel
  * 
  */
 export type HealthMetric = Prisma.HealthMetricModel
+/**
+ * Model MemberInfo
+ * 
+ */
+export type MemberInfo = Prisma.MemberInfoModel

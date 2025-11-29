@@ -389,7 +389,8 @@ export const ModelName = {
   Room: 'Room',
   Session: 'Session',
   Booking: 'Booking',
-  HealthMetric: 'HealthMetric'
+  HealthMetric: 'HealthMetric',
+  MemberInfo: 'MemberInfo'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -405,7 +406,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "member" | "trainer" | "room" | "session" | "booking" | "healthMetric"
+    modelProps: "member" | "trainer" | "room" | "session" | "booking" | "healthMetric" | "memberInfo"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -853,6 +854,36 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    MemberInfo: {
+      payload: Prisma.$MemberInfoPayload<ExtArgs>
+      fields: Prisma.MemberInfoFieldRefs
+      operations: {
+        findFirst: {
+          args: Prisma.MemberInfoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberInfoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MemberInfoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberInfoPayload>
+        }
+        findMany: {
+          args: Prisma.MemberInfoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberInfoPayload>[]
+        }
+        aggregate: {
+          args: Prisma.MemberInfoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMemberInfo>
+        }
+        groupBy: {
+          args: Prisma.MemberInfoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MemberInfoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MemberInfoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MemberInfoCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -952,6 +983,17 @@ export const HealthMetricScalarFieldEnum = {
 } as const
 
 export type HealthMetricScalarFieldEnum = (typeof HealthMetricScalarFieldEnum)[keyof typeof HealthMetricScalarFieldEnum]
+
+
+export const MemberInfoScalarFieldEnum = {
+  weight: 'weight',
+  weightGoal: 'weightGoal',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  email: 'email'
+} as const
+
+export type MemberInfoScalarFieldEnum = (typeof MemberInfoScalarFieldEnum)[keyof typeof MemberInfoScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1116,6 +1158,7 @@ export type GlobalOmitConfig = {
   session?: Prisma.SessionOmit
   booking?: Prisma.BookingOmit
   healthMetric?: Prisma.HealthMetricOmit
+  memberInfo?: Prisma.MemberInfoOmit
 }
 
 /* Types for Logging */
