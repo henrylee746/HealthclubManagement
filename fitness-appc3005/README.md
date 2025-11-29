@@ -66,9 +66,9 @@ Initial data was generated using:
 
 Re-running the seed may fail due to unique constraints (data already inserted).
 
-### Triggers and Views
+### Triggers 
 
-Triggers are not natively supported on Prisma, Views are currently a preview feature (beta) with unknown stable support, as per the docs: https://www.prisma.io/docs/orm/prisma-schema/data-model/views
+Triggers are not natively supported on Prisma. Either have to manually write SQL implementation and grab the data using another library, or use Atlas as a middleware solution
 
 ### Documentation
 
