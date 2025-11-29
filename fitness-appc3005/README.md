@@ -40,7 +40,7 @@ pnpm start
 
 Then open [http://localhost:3000](http://localhost:3000).
 
-## 🗂️ Project Structure (Important for Grading)
+## 🗂️ Project Structure
 
 ### ORM Entity Classes
 
@@ -65,6 +65,14 @@ Initial data was generated using:
 ./prisma/seed.ts
 
 Re-running the seed may fail due to unique constraints (data already inserted).
+
+### Triggers and Views
+
+Triggers are not natively supported on Prisma, Views are currently a preview feature (beta) with unknown stable support, as per the docs: https://www.prisma.io/docs/orm/prisma-schema/data-model/views
+
+### Documentation
+
+Inside ./docs, you will find an ER diagram (normalized to 3NF) and a brief report on how Prisma was utilized in this project.
 
 These points are also demonstrated in the accompanying YouTube demo.
 
