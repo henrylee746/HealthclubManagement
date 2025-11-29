@@ -1,6 +1,6 @@
 -- Create a function to validate session capacity against room capacity
 CREATE OR REPLACE FUNCTION check_session_capacity()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER AS $$ -- $$ is the delimiter for the function
 DECLARE
   room_capacity INTEGER;
 BEGIN

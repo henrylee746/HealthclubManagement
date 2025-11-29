@@ -1,3 +1,4 @@
+"use client";
 import {
   Card,
   CardAction,
@@ -25,8 +26,32 @@ import { Label } from "@/components/ui/label";
 import { Calendar24 } from "@/components/calendar-24";
 import { createSession } from "@/lib/actions";
 import { Trainer } from "@/lib/types";
+import { useActionState, useState, useEffect } from "react";
 
 export default function ClassManagement({ trainers }: { trainers: Trainer[] }) {
+  type State = {
+    success: string | undefined;
+    error: string | undefined;
+  };
+  const [state, formAction, isPending] = useActionState(
+    createSession,
+    {} as State
+  );
+  const [showNotification, setShowNotification] = useState(false);
+
+  // Show notification when state changes, then hide after 5 seconds
+  useEffect(() => {
+    if (state.success || state.error) {
+      setShowNotification(true);
+      const timer = setTimeout(() => {
+        setShowNotification(false);
+      }, 5000);
+
+      // Cleanup timeout on unmount or when state changes
+      return () => clearTimeout(timer);
+    }
+  }, [state.success, state.error]);
+
   return (
     <Card className="w-full xl:max-w-3xl lg:max-w-2xl md:max-w-2xl sm:max-w-md">
       <CardHeader>
@@ -37,10 +62,20 @@ export default function ClassManagement({ trainers }: { trainers: Trainer[] }) {
         <CardDescription>
           Create new sessions here (all fields required).
         </CardDescription>
+        {showNotification && state.success && (
+          <p className="text-green-800 bg-green-50 p-4 rounded-md">
+            {state.success}
+          </p>
+        )}
+        {showNotification && state.error && (
+          <p className="text-red-500 bg-destructive/10 p-4 rounded-md">
+            {state.error}
+          </p>
+        )}
       </CardHeader>
       <CardContent>
         <div className="flex w-full items-center  gap-2">
-          <form className="w-full" action={createSession}>
+          <form className="w-full" action={formAction}>
             <div className="flex flex-col gap-4 justify-stretch">
               <CardDescription>Basic Details</CardDescription>
               <Input
@@ -79,19 +114,21 @@ export default function ClassManagement({ trainers }: { trainers: Trainer[] }) {
               <RadioGroup name="roomId" defaultValue="1" required={true}>
                 <div className="flex items-center gap-3">
                   <RadioGroupItem value="1" id="1" />
-                  <Label htmlFor="1">Studio A</Label>
+                  {/*If adding room editing, hardcoding capacities 
+                  should be removed*/}
+                  <Label htmlFor="1">Studio A (Capacity: 20)</Label>
                 </div>
                 <div className="flex items-center gap-3">
                   <RadioGroupItem value="2" id="2" />
-                  <Label htmlFor="2">Studio B</Label>
+                  <Label htmlFor="2">Studio B (Capacity: 15)</Label>
                 </div>
                 <div className="flex items-center gap-3">
                   <RadioGroupItem value="3" id="3" />
-                  <Label htmlFor="3">Cycling Room</Label>
+                  <Label htmlFor="3">Cycling Room (Capacity: 12)</Label>
                 </div>
               </RadioGroup>
 
-              <Button type="submit" variant="secondary">
+              <Button type="submit" variant="secondary" disabled={isPending}>
                 Create
               </Button>
             </div>

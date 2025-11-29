@@ -3,7 +3,7 @@
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
-export async function updateSessionRoom(formData: FormData) {
+export async function updateSessionRoom(initialState: any, formData: FormData) {
   const sessionId = formData.get("sessionId");
   const roomId = formData.get("roomId");
 
@@ -18,7 +18,10 @@ export async function updateSessionRoom(formData: FormData) {
   });
 
   if (!session) {
-    throw new Error("Session not found");
+    return {
+      success: undefined,
+      error: "Session not found",
+    };
   }
 
   // Validate that session capacity does not exceed new room capacity
@@ -28,13 +31,20 @@ export async function updateSessionRoom(formData: FormData) {
   });
 
   if (!room) {
-    throw new Error("Room not found");
+    return {
+      success: undefined,
+      error: "Room not found",
+    };
   }
 
+  /*Application-level validation,
+  but database-level validation would 
+  throw same error even if this conditional is removed*/
   if (session.capacity > room.capacity) {
-    throw new Error(
-      `Session capacity (${session.capacity}) cannot exceed room capacity (${room.capacity})`
-    );
+    return {
+      success: undefined,
+      error: `Session capacity (${session.capacity}) cannot exceed room capacity (${room.capacity})`,
+    };
   }
 
   await prisma.session.update({
@@ -44,9 +54,14 @@ export async function updateSessionRoom(formData: FormData) {
 
   // Re-fetch the table data after updating
   revalidatePath("/admin");
+
+  return {
+    success: "Session room updated successfully",
+    error: undefined,
+  };
 }
 
-export async function createSession(formData: FormData) {
+export async function createSession(initialState: any, formData: FormData) {
   const sessionName = formData.get("sessionName") as string;
   const capacity = Number(formData.get("capacity"));
   const trainerId = formData.get("trainer") as string;
@@ -65,13 +80,17 @@ export async function createSession(formData: FormData) {
   });
 
   if (!room) {
-    throw new Error("Room not found");
+    return {
+      success: undefined,
+      error: "Room not found",
+    };
   }
 
   if (capacity > room.capacity) {
-    throw new Error(
-      `Session capacity (${capacity}) cannot exceed room capacity (${room.capacity})`
-    );
+    return {
+      success: undefined,
+      error: `Session capacity (${capacity}) cannot exceed room capacity (${room.capacity})`,
+    };
   }
 
   await prisma.session.create({
@@ -85,6 +104,11 @@ export async function createSession(formData: FormData) {
   });
 
   revalidatePath("/admin");
+
+  return {
+    success: "Session created successfully",
+    error: undefined,
+  };
 }
 
 /*Register New Member*/
