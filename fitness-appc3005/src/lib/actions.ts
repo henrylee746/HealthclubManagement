@@ -40,14 +40,14 @@ export async function updateSessionRoom(initialState: any, formData: FormData) {
   /*Application-level validation,
   but database-level validation would 
   throw same error even if this conditional is removed
-   if (session.capacity > room.capacity) {
+  */
+
+  if (session.capacity > room.capacity) {
     return {
       success: undefined,
       error: `Session capacity (${session.capacity}) cannot exceed room capacity (${room.capacity})`,
     };
   }
-  
-  */
 
   await prisma.session.update({
     where: { id: Number(sessionId) },
