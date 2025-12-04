@@ -24,9 +24,9 @@ const cardsData: CardData[] = [
     },
     back: {
       description: [
-        "Update your personal information",
-        "View your booking history",
-        "View your health metrics (w/ timestamped entries)",
+        "Register as a member",
+        "Update your information & metrics (timestamped)",
+        "View your information on a dashboard",
         "Register for group sessions",
       ],
     },
