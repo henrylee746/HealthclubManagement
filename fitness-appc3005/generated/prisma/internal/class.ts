@@ -19,8 +19,8 @@ const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [
     "views"
   ],
-  "clientVersion": "7.0.1",
-  "engineVersion": "f09f2815f091dbba658cdcd2264306d88bb5bda6",
+  "clientVersion": "7.1.0",
+  "engineVersion": "ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba",
   "activeProvider": "postgresql",
   "inlineSchema": "generator client {\n  provider        = \"prisma-client\"\n  output          = \"../generated/prisma\"\n  previewFeatures = [\"views\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Member {\n  id           Int            @id @default(autoincrement())\n  firstName    String\n  lastName     String\n  email        String         @unique\n  registeredAt DateTime       @default(now())\n  bookings     Booking[]\n  metrics      HealthMetric[]\n}\n\nmodel Trainer {\n  id       Int       @id @default(autoincrement())\n  name     String\n  email    String    @unique\n  sessions Session[]\n}\n\nmodel Room {\n  id       Int       @id @default(autoincrement())\n  name     String    @unique\n  capacity Int\n  sessions Session[]\n}\n\nmodel Session {\n  id        Int       @id @default(autoincrement())\n  trainerId Int\n  roomId    Int\n  name      String\n  dateTime  DateTime\n  capacity  Int\n  bookings  Booking[]\n  room      Room      @relation(fields: [roomId], references: [id])\n  trainer   Trainer   @relation(fields: [trainerId], references: [id])\n  //Good for finding sessions for a trainer on a specific date\n  //Sorting sessions by date\n  //Finding sessions by trainer\n\n  @@index([trainerId, dateTime])\n}\n\nmodel Booking {\n  id        Int      @id @default(autoincrement())\n  memberId  Int\n  sessionId Int\n  createdAt DateTime @default(now())\n  member    Member   @relation(fields: [memberId], references: [id])\n  session   Session  @relation(fields: [sessionId], references: [id])\n  //Good for finding all members of a session\n  //Or counting the number of bookings for a session\n\n  @@unique([memberId, sessionId]) //prevents duplicate bookings\n  @@index([sessionId])\n}\n\nmodel HealthMetric {\n  id         Int      @id @default(autoincrement())\n  memberId   Int\n  timestamp  DateTime @default(now())\n  weight     Int\n  weightGoal Int\n\n  member Member @relation(fields: [memberId], references: [id])\n  //Would be good for fetching metrics by date\n  //Or a list of ordered historical metrics\n\n  @@index([memberId, timestamp])\n}\n\nview MemberInfo {\n  weight     Int\n  weightGoal Int\n  firstName  String\n  lastName   String\n  email      String\n}\n",
   "runtimeDataModel": {
@@ -64,7 +64,7 @@ export interface PrismaClientConstructor {
    * const members = await prisma.member.findMany()
    * ```
    * 
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+   * Read more in our [docs](https://pris.ly/d/client).
    */
 
   new <
@@ -86,7 +86,7 @@ export interface PrismaClientConstructor {
  * const members = await prisma.member.findMany()
  * ```
  * 
- * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+ * Read more in our [docs](https://pris.ly/d/client).
  */
 
 export interface PrismaClient<
@@ -115,7 +115,7 @@ export interface PrismaClient<
    * const result = await prisma.$executeRaw`UPDATE User SET cool = ${true} WHERE email = ${'user@email.com'};`
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<number>;
 
@@ -127,7 +127,7 @@ export interface PrismaClient<
    * const result = await prisma.$executeRawUnsafe('UPDATE User SET cool = $1 WHERE email = $2 ;', true, 'user@email.com')
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<number>;
 
@@ -138,7 +138,7 @@ export interface PrismaClient<
    * const result = await prisma.$queryRaw`SELECT * FROM User WHERE id = ${1} OR email = ${'user@email.com'};`
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<T>;
 
@@ -150,7 +150,7 @@ export interface PrismaClient<
    * const result = await prisma.$queryRawUnsafe('SELECT * FROM User WHERE id = $1 OR email = $2;', 1, 'user@email.com')
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<T>;
 

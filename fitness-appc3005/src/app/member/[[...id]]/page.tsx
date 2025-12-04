@@ -59,10 +59,10 @@ export default async function Members({
         </div>
 
         {id ? (
-          <div className="flex flex-wrap items-center justify-center w-full mt-8 mb-4 gap-8">
+          <div className="flex p-4 flex-wrap items-center justify-center w-full mt-8 mb-4 gap-8">
             <ProfileManagement id={id} />
 
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-6 p-4">
               <MemberDashboard member={member} />
 
               <GroupClass sessions={sessions} member={member} />
