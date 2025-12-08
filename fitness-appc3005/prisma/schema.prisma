@@ -1,6 +1,7 @@
+
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider        = "prisma-client"
+  output          = "../generated/prisma"
   previewFeatures = ["views"]
 
 }
@@ -8,7 +9,6 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
-
 
 model Member {
   id           Int            @id @default(autoincrement())
@@ -45,11 +45,23 @@ model Session {
   room      Room      @relation(fields: [roomId], references: [id])
   trainer   Trainer   @relation(fields: [trainerId], references: [id])
 
-  @@index([trainerId, dateTime])
   //Good for finding sessions for a trainer on a specific date
   //Sorting sessions by date
   //Finding sessions by trainer
 
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([trainerId, dateTime])
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
 }
 
 model Booking {
@@ -60,30 +72,79 @@ model Booking {
   member    Member   @relation(fields: [memberId], references: [id])
   session   Session  @relation(fields: [sessionId], references: [id])
 
-  @@unique([memberId, sessionId]) //prevents duplicate bookings
-  @@index([sessionId])
+  //prevents duplicate bookings
   //Good for finding all members of a session
   //Or counting the number of bookings for a session
+  @@unique([memberId, sessionId])
+  @@index([sessionId])
 }
 
 model HealthMetric {
-  id        Int      @id @default(autoincrement())
-  memberId  Int
-  timestamp DateTime @default(now())
-  weight    Int
+  id         Int      @id @default(autoincrement())
+  memberId   Int
+  timestamp  DateTime @default(now())
+  weight     Int
   weightGoal Int
 
-  member    Member   @relation(fields: [memberId], references: [id])
-  @@index([memberId, timestamp])
+  member Member @relation(fields: [memberId], references: [id])
   //Would be good for fetching metrics by date
   //Or a list of ordered historical metrics
 
+  @@index([memberId, timestamp])
 }
 
-view MemberInfo{
-  weight Int
+view MemberInfo {
+  weight     Int
   weightGoal Int
-  firstName String
-  lastName String
-  email String
+  firstName  String
+  lastName   String
+  email      String
+}
+
+//BetterAuth Tables
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
 }
