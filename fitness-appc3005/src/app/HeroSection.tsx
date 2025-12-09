@@ -138,7 +138,7 @@ export default function HeroSection() {
             </h1>
 
             <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-6 sm:mb-8 leading-relaxed transition-colors duration-300">
-              Welcome to our fitness club management system. This system is
+              Welcome to Henry's fitness club management system. This system is
               designed to help you manage your fitness club. It includes
               features for managing members, trainers, bookings, sessions, and
               health metrics.

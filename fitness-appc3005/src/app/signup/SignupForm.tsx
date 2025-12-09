@@ -100,7 +100,7 @@ const Signin: React.FC = () => {
           {/* Main Card with shadcn/ui styling */}
           <div
             ref={cardRef}
-            className="relative bg-white dark:bg-black border border-border rounded-lg p-6 shadow-sm transition-all duration-200 hover:shadow-md"
+            className="relative bg-white dark:bg-zinc-900 border border-border rounded-lg p-6 shadow-sm transition-all duration-200 hover:shadow-md"
           >
             {/* Header */}
             <div className="flex flex-col space-y-2 text-center mb-6">
