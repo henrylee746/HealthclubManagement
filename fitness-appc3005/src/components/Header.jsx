@@ -8,7 +8,7 @@ import Link from "next/link";
 
 const Header = () => {
   return (
-    <div className="flex py-6 flex-wrap items-center justify-between gap-4 mr-4 text-base font-medium">
+    <div className="flex flex-col sm:flex-row py-6 flex-wrap items-center justify-between gap-4 mr-4 text-base font-medium">
       <div className="flex gap-4 items-center">
         <Link
           href="/"
@@ -16,7 +16,7 @@ const Header = () => {
         >
           <Button variant={"link"}>
             <div className="flex justify-center items-center gap-2">
-              <IconHome className="size-8" />
+              <IconHome className="size-6" />
               <span className="text-xl">Home</span>
             </div>
           </Button>

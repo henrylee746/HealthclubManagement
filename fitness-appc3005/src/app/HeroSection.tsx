@@ -63,13 +63,13 @@ const ExampleDisplay = ({
 }) => {
   return (
     <div
-      className={`relative max-w-5xl mx-auto px-4 transition-all duration-500 ease-in-out ${
+      className={`relative pb-8 max-w-5xl mx-auto px-4 transition-all duration-500 ease-in-out ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
       }`}
     >
       <div className="relative bg-white dark:bg-gray-950 rounded-lg sm:rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-colors duration-300">
         <div className="flex items-center justify-between px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700">
-          <div className="bg-yellow-100 dark:bg-yellow-900/50 text-yellow-700 dark:text-yellow-300 px-2 sm:px-3 py-1 rounded-md text-xs font-medium">
+          <div className="mx-auto sm:mx-0 bg-yellow-100 dark:bg-yellow-900/50 text-yellow-700 dark:text-yellow-300 px-2 sm:px-3 py-1 rounded-md text-xs font-medium">
             Example of {selectedPill === "admin" ? "an" : "a"} {selectedPill}'s
             Profile
           </div>
@@ -111,7 +111,7 @@ export default function HeroSection() {
   ];
 
   return (
-    <div className="font-sans">
+    <div className="font-sans h-full">
       <style>{`
         @keyframes slide-up {
           from { opacity: 0; transform: translateY(20px); }
@@ -134,7 +134,7 @@ export default function HeroSection() {
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mt-4 sm:mt-6 mb-4 sm:mb-6 leading-tight transition-colors duration-300">
               Hassle-free management system
               <br className="hidden sm:block" />
-              <span className="sm:hidden"> </span> for your fitness club
+              <span className="sm:hidden"> </span> for your fitness club 🏋️‍♂️
             </h1>
 
             <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-6 sm:mb-8 leading-relaxed transition-colors duration-300">
