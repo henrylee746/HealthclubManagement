@@ -22,12 +22,12 @@ export default async function MemberDashboard({
   const weightGoal = member?.metrics[member.metrics.length - 1]?.weightGoal;
   const pastClasses = member
     ? member?.bookings.filter(
-        (booking: Booking) => booking.session.dateTime < new Date()
+        (booking: Booking) => booking.classSession.dateTime < new Date()
       ).length > 0
       ? member?.bookings.map((booking: Booking) => (
-          <div key={booking.sessionId}>
-            {booking.session.dateTime < new Date() ? (
-              <li className="list-disc">{booking.session.name}</li>
+          <div key={booking.classSessionId}>
+            {booking.classSession.dateTime < new Date() ? (
+              <li className="list-disc">{booking.classSession.name}</li>
             ) : null}
           </div>
         ))
@@ -35,12 +35,12 @@ export default async function MemberDashboard({
     : null;
   const upcomingClasses = member
     ? member?.bookings.filter(
-        (booking: Booking) => booking.session.dateTime > new Date()
+        (booking: Booking) => booking.classSession.dateTime > new Date()
       ).length > 0
       ? member?.bookings.map((booking: Booking) => (
-          <div key={booking.sessionId}>
-            {booking.session.dateTime > new Date() ? (
-              <li className="list-disc">{booking.session.name}</li>
+          <div key={booking.classSessionId}>
+            {booking.classSession.dateTime > new Date() ? (
+              <li className="list-disc">{booking.classSession.name}</li>
             ) : null}
           </div>
         ))

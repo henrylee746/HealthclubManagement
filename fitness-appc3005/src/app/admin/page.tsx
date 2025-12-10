@@ -3,7 +3,7 @@ import RoomBooking from "./(components)/RoomBooking";
 import ClassManagement from "./(components)/ClassManagement";
 
 export default async function Admin() {
-  const sessions = await prisma.session.findMany({
+  const sessions = await prisma.classSession.findMany({
     where: {
       dateTime: {
         gte: new Date(),

@@ -1,9 +1,24 @@
-import { Button } from "@/components/ui/button";
 import { IconUserFilled } from "@tabler/icons-react";
 import { IconUser } from "@tabler/icons-react";
 import { IconUserCog } from "@tabler/icons-react";
+import { Button } from "@/components/ui/button";
 import { IconHome } from "@tabler/icons-react";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ToggleTheme } from "./ui/toggle-theme";
 import Link from "next/link";
 
 const Header = () => {
@@ -29,6 +44,30 @@ const Header = () => {
         <Link href="/signin">
           <InteractiveHoverButton>Sign In</InteractiveHoverButton>
         </Link>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline">Open</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56" align="start">
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuGroup>
+              <DropdownMenuItem>
+                Profile
+                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem>
+                Log Out
+                <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <ToggleTheme
+          duration={600}
+          animationType="swipe-up"
+          className="bg-gray-100 dark:bg-gray-700"
+        />
       </div>
       {/*
       <Link href="/">

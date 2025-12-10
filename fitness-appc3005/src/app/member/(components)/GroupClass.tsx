@@ -12,7 +12,11 @@ import {
 import { IconCalendarUser } from "@tabler/icons-react";
 import { DataTable } from "./data-table";
 import { sessionColumns } from "./columns";
-import { MemberExtended, Session, SessionExtended } from "@/lib/types";
+import {
+  MemberExtended,
+  ClassSession,
+  ClassSessionExtended,
+} from "@/lib/types";
 import { registerSessions } from "@/lib/actions";
 import { useState } from "react";
 import { Booking } from "@/lib/types";
@@ -21,12 +25,12 @@ export default function GroupClass({
   sessions,
   member,
 }: {
-  sessions: SessionExtended[];
+  sessions: ClassSessionExtended[];
   member: MemberExtended | null;
 }) {
   /*Filters only sessions that the member has not registered for yet*/
   const sessionIds = member
-    ? member.bookings.map((booking: Booking) => booking.sessionId)
+    ? member.bookings.map((booking: Booking) => booking.classSessionId)
     : [];
   const filteredSessions = sessions.filter(
     (session) => !sessionIds.includes(session.id)

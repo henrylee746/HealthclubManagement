@@ -200,14 +200,14 @@ export type TrainerWhereInput = {
   id?: Prisma.IntFilter<"Trainer"> | number
   name?: Prisma.StringFilter<"Trainer"> | string
   email?: Prisma.StringFilter<"Trainer"> | string
-  sessions?: Prisma.SessionListRelationFilter
+  sessions?: Prisma.ClassSessionListRelationFilter
 }
 
 export type TrainerOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  sessions?: Prisma.SessionOrderByRelationAggregateInput
+  sessions?: Prisma.ClassSessionOrderByRelationAggregateInput
 }
 
 export type TrainerWhereUniqueInput = Prisma.AtLeast<{
@@ -217,7 +217,7 @@ export type TrainerWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.TrainerWhereInput[]
   NOT?: Prisma.TrainerWhereInput | Prisma.TrainerWhereInput[]
   name?: Prisma.StringFilter<"Trainer"> | string
-  sessions?: Prisma.SessionListRelationFilter
+  sessions?: Prisma.ClassSessionListRelationFilter
 }, "id" | "email">
 
 export type TrainerOrderByWithAggregationInput = {
@@ -243,27 +243,27 @@ export type TrainerScalarWhereWithAggregatesInput = {
 export type TrainerCreateInput = {
   name: string
   email: string
-  sessions?: Prisma.SessionCreateNestedManyWithoutTrainerInput
+  sessions?: Prisma.ClassSessionCreateNestedManyWithoutTrainerInput
 }
 
 export type TrainerUncheckedCreateInput = {
   id?: number
   name: string
   email: string
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutTrainerInput
+  sessions?: Prisma.ClassSessionUncheckedCreateNestedManyWithoutTrainerInput
 }
 
 export type TrainerUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  sessions?: Prisma.SessionUpdateManyWithoutTrainerNestedInput
+  sessions?: Prisma.ClassSessionUpdateManyWithoutTrainerNestedInput
 }
 
 export type TrainerUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutTrainerNestedInput
+  sessions?: Prisma.ClassSessionUncheckedUpdateManyWithoutTrainerNestedInput
 }
 
 export type TrainerCreateManyInput = {
@@ -393,7 +393,7 @@ export type TrainerCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exte
  * TrainerCountOutputType without action
  */
 export type TrainerCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SessionWhereInput
+  where?: Prisma.ClassSessionWhereInput
 }
 
 
@@ -434,7 +434,7 @@ export type TrainerIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type $TrainerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Trainer"
   objects: {
-    sessions: Prisma.$SessionPayload<ExtArgs>[]
+    sessions: Prisma.$ClassSessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -834,7 +834,7 @@ readonly fields: TrainerFieldRefs;
  */
 export interface Prisma__TrainerClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  sessions<T extends Prisma.Trainer$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Trainer$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sessions<T extends Prisma.Trainer$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Trainer$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1259,23 +1259,23 @@ export type TrainerDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
  */
 export type Trainer$sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Session
+   * Select specific fields to fetch from the ClassSession
    */
-  select?: Prisma.SessionSelect<ExtArgs> | null
+  select?: Prisma.ClassSessionSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Session
+   * Omit specific fields from the ClassSession
    */
-  omit?: Prisma.SessionOmit<ExtArgs> | null
+  omit?: Prisma.ClassSessionOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.SessionInclude<ExtArgs> | null
-  where?: Prisma.SessionWhereInput
-  orderBy?: Prisma.SessionOrderByWithRelationInput | Prisma.SessionOrderByWithRelationInput[]
-  cursor?: Prisma.SessionWhereUniqueInput
+  include?: Prisma.ClassSessionInclude<ExtArgs> | null
+  where?: Prisma.ClassSessionWhereInput
+  orderBy?: Prisma.ClassSessionOrderByWithRelationInput | Prisma.ClassSessionOrderByWithRelationInput[]
+  cursor?: Prisma.ClassSessionWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.SessionScalarFieldEnum | Prisma.SessionScalarFieldEnum[]
+  distinct?: Prisma.ClassSessionScalarFieldEnum | Prisma.ClassSessionScalarFieldEnum[]
 }
 
 /**

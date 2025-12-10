@@ -15,7 +15,7 @@ export default async function GroupClass() {
   filtering by trainer
   Filters sessions with dates only greater than or equal to (gte) today
   */
-  const sessions = await prisma.session.findMany({
+  const sessions = await prisma.classSession.findMany({
     where: {
       dateTime: {
         gte: new Date(),

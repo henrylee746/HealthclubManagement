@@ -55,6 +55,11 @@ export type Trainer = Prisma.TrainerModel
  */
 export type Room = Prisma.RoomModel
 /**
+ * Model ClassSession
+ * 
+ */
+export type ClassSession = Prisma.ClassSessionModel
+/**
  * Model Session
  * 
  */
@@ -69,6 +74,21 @@ export type Booking = Prisma.BookingModel
  * 
  */
 export type HealthMetric = Prisma.HealthMetricModel
+/**
+ * Model User
+ * 
+ */
+export type User = Prisma.UserModel
+/**
+ * Model Account
+ * 
+ */
+export type Account = Prisma.AccountModel
+/**
+ * Model Verification
+ * 
+ */
+export type Verification = Prisma.VerificationModel
 /**
  * Model MemberInfo
  * 

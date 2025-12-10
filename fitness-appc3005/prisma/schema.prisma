@@ -21,20 +21,21 @@ model Member {
 }
 
 model Trainer {
-  id       Int       @id @default(autoincrement())
+  id       Int            @id @default(autoincrement())
   name     String
-  email    String    @unique
-  sessions Session[]
+  email    String         @unique
+  sessions ClassSession[]
 }
 
 model Room {
-  id       Int       @id @default(autoincrement())
-  name     String    @unique
+  id       Int            @id @default(autoincrement())
+  name     String         @unique
   capacity Int
-  sessions Session[]
+  sessions ClassSession[]
 }
 
-model Session {
+// Fitness app's class/workout sessions
+model ClassSession {
   id        Int       @id @default(autoincrement())
   trainerId Int
   roomId    Int
@@ -49,8 +50,15 @@ model Session {
   //Sorting sessions by date
   //Finding sessions by trainer
 
+  @@index([trainerId, dateTime])
+  @@map("class_session")
+}
+
+// Better Auth authentication sessions
+model Session {
+  id        String   @id
   expiresAt DateTime
-  token     String
+  token     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   ipAddress String?
@@ -58,25 +66,23 @@ model Session {
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([trainerId, dateTime])
-  @@unique([token])
   @@index([userId])
   @@map("session")
 }
 
 model Booking {
-  id        Int      @id @default(autoincrement())
-  memberId  Int
-  sessionId Int
-  createdAt DateTime @default(now())
-  member    Member   @relation(fields: [memberId], references: [id])
-  session   Session  @relation(fields: [sessionId], references: [id])
+  id             Int          @id @default(autoincrement())
+  memberId       Int
+  classSessionId Int
+  createdAt      DateTime     @default(now())
+  member         Member       @relation(fields: [memberId], references: [id])
+  classSession   ClassSession @relation(fields: [classSessionId], references: [id])
 
   //prevents duplicate bookings
   //Good for finding all members of a session
   //Or counting the number of bookings for a session
-  @@unique([memberId, sessionId])
-  @@index([sessionId])
+  @@unique([memberId, classSessionId])
+  @@index([classSessionId])
 }
 
 model HealthMetric {
@@ -101,7 +107,6 @@ view MemberInfo {
   email      String
 }
 
-//BetterAuth Tables
 model User {
   id            String    @id
   name          String
@@ -110,7 +115,7 @@ model User {
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  sessions      Session[]
+  sessions      Session[] // Better Auth sessions
   accounts      Account[]
 
   @@unique([email])

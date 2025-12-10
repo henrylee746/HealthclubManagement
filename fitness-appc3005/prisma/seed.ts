@@ -46,8 +46,8 @@ async function main() {
 
   const createdRooms = await prisma.room.findMany();
 
-  // Sessions
-  const sessions = await prisma.session.createMany({
+  // Class Sessions (fitness classes)
+  const sessions = await prisma.classSession.createMany({
     data: [
       {
         trainerId: createdTrainers[0].id,
@@ -80,26 +80,26 @@ async function main() {
     ],
   });
 
-  const createdSessions = await prisma.session.findMany();
+  const createdSessions = await prisma.classSession.findMany();
 
   // Bookings (avoid duplicates due to @@unique constraint)
   await prisma.booking.createMany({
     data: [
       {
         memberId: createdMembers[0].id,
-        sessionId: createdSessions[0].id,
+        classSessionId: createdSessions[0].id,
       },
       {
         memberId: createdMembers[1].id,
-        sessionId: createdSessions[0].id,
+        classSessionId: createdSessions[0].id,
       },
       {
         memberId: createdMembers[1].id,
-        sessionId: createdSessions[2].id,
+        classSessionId: createdSessions[2].id,
       },
       {
         memberId: createdMembers[2].id,
-        sessionId: createdSessions[1].id,
+        classSessionId: createdSessions[1].id,
       },
     ],
     skipDuplicates: true,

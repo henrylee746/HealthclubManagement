@@ -204,14 +204,14 @@ export type RoomWhereInput = {
   id?: Prisma.IntFilter<"Room"> | number
   name?: Prisma.StringFilter<"Room"> | string
   capacity?: Prisma.IntFilter<"Room"> | number
-  sessions?: Prisma.SessionListRelationFilter
+  sessions?: Prisma.ClassSessionListRelationFilter
 }
 
 export type RoomOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   capacity?: Prisma.SortOrder
-  sessions?: Prisma.SessionOrderByRelationAggregateInput
+  sessions?: Prisma.ClassSessionOrderByRelationAggregateInput
 }
 
 export type RoomWhereUniqueInput = Prisma.AtLeast<{
@@ -221,7 +221,7 @@ export type RoomWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.RoomWhereInput[]
   NOT?: Prisma.RoomWhereInput | Prisma.RoomWhereInput[]
   capacity?: Prisma.IntFilter<"Room"> | number
-  sessions?: Prisma.SessionListRelationFilter
+  sessions?: Prisma.ClassSessionListRelationFilter
 }, "id" | "name">
 
 export type RoomOrderByWithAggregationInput = {
@@ -247,27 +247,27 @@ export type RoomScalarWhereWithAggregatesInput = {
 export type RoomCreateInput = {
   name: string
   capacity: number
-  sessions?: Prisma.SessionCreateNestedManyWithoutRoomInput
+  sessions?: Prisma.ClassSessionCreateNestedManyWithoutRoomInput
 }
 
 export type RoomUncheckedCreateInput = {
   id?: number
   name: string
   capacity: number
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutRoomInput
+  sessions?: Prisma.ClassSessionUncheckedCreateNestedManyWithoutRoomInput
 }
 
 export type RoomUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  sessions?: Prisma.SessionUpdateManyWithoutRoomNestedInput
+  sessions?: Prisma.ClassSessionUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutRoomNestedInput
+  sessions?: Prisma.ClassSessionUncheckedUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomCreateManyInput = {
@@ -399,7 +399,7 @@ export type RoomCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
  * RoomCountOutputType without action
  */
 export type RoomCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SessionWhereInput
+  where?: Prisma.ClassSessionWhereInput
 }
 
 
@@ -440,7 +440,7 @@ export type RoomIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $RoomPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Room"
   objects: {
-    sessions: Prisma.$SessionPayload<ExtArgs>[]
+    sessions: Prisma.$ClassSessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -840,7 +840,7 @@ readonly fields: RoomFieldRefs;
  */
 export interface Prisma__RoomClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  sessions<T extends Prisma.Room$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Room$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sessions<T extends Prisma.Room$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Room$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1265,23 +1265,23 @@ export type RoomDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
  */
 export type Room$sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Session
+   * Select specific fields to fetch from the ClassSession
    */
-  select?: Prisma.SessionSelect<ExtArgs> | null
+  select?: Prisma.ClassSessionSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Session
+   * Omit specific fields from the ClassSession
    */
-  omit?: Prisma.SessionOmit<ExtArgs> | null
+  omit?: Prisma.ClassSessionOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.SessionInclude<ExtArgs> | null
-  where?: Prisma.SessionWhereInput
-  orderBy?: Prisma.SessionOrderByWithRelationInput | Prisma.SessionOrderByWithRelationInput[]
-  cursor?: Prisma.SessionWhereUniqueInput
+  include?: Prisma.ClassSessionInclude<ExtArgs> | null
+  where?: Prisma.ClassSessionWhereInput
+  orderBy?: Prisma.ClassSessionOrderByWithRelationInput | Prisma.ClassSessionOrderByWithRelationInput[]
+  cursor?: Prisma.ClassSessionWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.SessionScalarFieldEnum | Prisma.SessionScalarFieldEnum[]
+  distinct?: Prisma.ClassSessionScalarFieldEnum | Prisma.ClassSessionScalarFieldEnum[]
 }
 
 /**

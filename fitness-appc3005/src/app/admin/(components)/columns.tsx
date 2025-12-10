@@ -24,10 +24,10 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { updateSessionRoom } from "@/lib/actions";
-import { SessionExtended } from "@/lib/types";
+import { ClassSessionExtended } from "@/lib/types";
 import { useActionState, useEffect, useState } from "react";
 
-export const sessionColumns: ColumnDef<SessionExtended>[] = [
+export const sessionColumns: ColumnDef<ClassSessionExtended>[] = [
   {
     id: "actions",
     cell: ({ row }) => {

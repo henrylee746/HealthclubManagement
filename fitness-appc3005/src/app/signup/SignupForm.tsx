@@ -1,7 +1,12 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useActionState } from "react";
+import { useRouter } from "next/navigation";
 import { LuUser, LuMail, LuLock, LuEye, LuEyeOff } from "react-icons/lu";
 import { SiGoogle } from "react-icons/si";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { registerMember } from "@/lib/actions";
+import { Loader } from "@/components/ui/loader";
 
 const UserIcon: React.FC = () => <LuUser size={16} />;
 
@@ -56,6 +61,7 @@ const FloatingLabelInput: React.FC<{
             "--tw-ring-color": "hsl(var(--ring))",
           } as React.CSSProperties
         }
+        required={true}
       />
       <label
         htmlFor={id}
@@ -82,15 +88,68 @@ const FloatingLabelInput: React.FC<{
 
 // Main Component with shadcn/ui styling
 const Signin: React.FC = () => {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [fullName, setFullName] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const cardRef = useRef<HTMLDivElement>(null);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(email, password, firstName, lastName);
+    setError(null);
+    setLoading(true);
+    // 1. Sign up with Better Auth
+    const response = await authClient.signUp.email({
+      email,
+      password,
+      name: `${firstName} ${lastName}`,
+      //callbacks don't work out of the box for signups
+    });
+    console.log("Full signup response:", response);
+
+    if (response.error) {
+      console.log("Error details:", response.error);
+      setError(response.error.message || "Something went wrong");
+      setLoading(false);
+
+      return; // Stop here if auth signup fails
+    }
+
+    // 2. Register as a Member in the fitness app
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    try {
+      await registerMember(formData);
+    } catch (error) {
+      setError("Failed to register member");
+      setLoading(false);
+
+      return;
+    }
+
+    // 3. Redirect to member page after successful signup
+    toast.success(`Welcome, ${firstName} ${lastName}`);
+    router.push("/member");
+    setLoading(false);
+  };
+
+  const handleGoogleSubmit = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/member",
+    });
   };
 
   return (
@@ -111,16 +170,28 @@ const Signin: React.FC = () => {
                 Enter your details below to create your account
               </p>
             </div>
-
-            <form className="space-y-4">
-              {/* Full Name Input */}
+            {error && (
+              <p className="text-center mb-6 text-red-500 text-sm">{error}</p>
+            )}
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              {/* First Name Input */}
               <div className="space-y-2">
                 <FloatingLabelInput
-                  id="fullName"
+                  id="firstName"
                   type="text"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  placeholder="Full Name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  placeholder="First Name"
+                  icon={<UserIcon />}
+                />
+              </div>
+              <div className="space-y-2">
+                <FloatingLabelInput
+                  id="lastName"
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  placeholder="Last Name"
                   icon={<UserIcon />}
                 />
               </div>
@@ -154,9 +225,11 @@ const Signin: React.FC = () => {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
+                disabled={loading}
+                className="cursor-pointer inline-flex gap-4 items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
               >
                 Create Account
+                {loading ? <Loader /> : null}
               </button>
             </form>
 
@@ -166,7 +239,7 @@ const Signin: React.FC = () => {
                 <span className="w-full border-t border-border" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white dark:bg-black px-2 text-muted-foreground">
+                <span className="bg-zinc-100 dark:bg-zinc-900 px-2 text-muted-foreground">
                   Or continue with
                 </span>
               </div>
@@ -176,7 +249,8 @@ const Signin: React.FC = () => {
             <div className="flex items-center justify-center">
               <button
                 type="button"
-                className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+                className="cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+                onClick={handleGoogleSubmit}
               >
                 <GoogleIcon />
                 <span className="ml-2">Google</span>

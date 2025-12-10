@@ -11,13 +11,13 @@ export async function updateSessionRoom(initialState: any, formData: FormData) {
     throw new Error("Missing sessionId or room");
   }
 
-  // Get current session to check its capacity
-  const session = await prisma.session.findUnique({
+  // Get current class session to check its capacity
+  const classSession = await prisma.classSession.findUnique({
     where: { id: Number(sessionId) },
     select: { capacity: true },
   });
 
-  if (!session) {
+  if (!classSession) {
     return {
       success: undefined,
       error: "Session not found",
@@ -42,14 +42,14 @@ export async function updateSessionRoom(initialState: any, formData: FormData) {
   throw same error even if this conditional is removed
   */
 
-  if (session.capacity > room.capacity) {
+  if (classSession.capacity > room.capacity) {
     return {
       success: undefined,
-      error: `Session capacity (${session.capacity}) cannot exceed room capacity (${room.capacity})`,
+      error: `Session capacity (${classSession.capacity}) cannot exceed room capacity (${room.capacity})`,
     };
   }
 
-  await prisma.session.update({
+  await prisma.classSession.update({
     where: { id: Number(sessionId) },
     data: { roomId: Number(roomId) },
   });
@@ -100,7 +100,7 @@ export async function createSession(initialState: any, formData: FormData) {
   //As proof that data-level validation is working,
   // we can remove the conditional above
   try {
-    await prisma.session.create({
+    await prisma.classSession.create({
       data: {
         name: sessionName,
         capacity,
@@ -125,6 +125,7 @@ export async function createSession(initialState: any, formData: FormData) {
 
 /*Register New Member*/
 export const registerMember = async (formData: FormData) => {
+  console.log("invoked");
   const email = formData.get("email") as string;
   const firstName = formData.get("firstName") as string;
   const lastName = formData.get("lastName") as string;
@@ -189,7 +190,7 @@ export const registerSessions = async (formData: FormData) => {
     await prisma.booking.create({
       data: {
         memberId: Number(memberId),
-        sessionId: Number(id),
+        classSessionId: Number(id),
       },
     });
   });

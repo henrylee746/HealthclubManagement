@@ -4,7 +4,7 @@ export async function POST(req: Request) {
   try {
     const { id } = await req.json(); // parse JSON from request body
     if (!id) {
-      const sessions = await prisma.session.findMany({
+      const sessions = await prisma.classSession.findMany({
         where: {
           dateTime: {
             gte: new Date(),
@@ -20,7 +20,7 @@ export async function POST(req: Request) {
         headers: { "Content-Type": "application/json" },
       });
     } else {
-      const sessions = await prisma.session.findMany({
+      const sessions = await prisma.classSession.findMany({
         where: {
           trainerId: Number(id),
           dateTime: {

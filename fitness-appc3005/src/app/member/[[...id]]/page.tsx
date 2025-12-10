@@ -25,13 +25,13 @@ export default async function Members({
           metrics: true,
           bookings: {
             include: {
-              session: true,
+              classSession: true,
             },
           },
         },
       })
     : null;
-  const sessions = await prisma.session.findMany({
+  const sessions = await prisma.classSession.findMany({
     where: {
       dateTime: {
         gte: new Date(),
@@ -45,17 +45,17 @@ export default async function Members({
 
   return (
     <>
-      <h1 className="max-w-s mb-4 text-center text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
+      <h1 className="max-w-s text-center text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
         Member's Hub
       </h1>
       <div
-        className={`h-full flex flex-col items-center ${
+        className={`flex flex-col items-center ${
           id ? "justify-center" : "justify-start py-8"
         } font-sans`}
       >
         <div className="flex gap-4">
           <MemberSelect members={members} id={id} />
-          <MemberRegistration />
+          {/*<MemberRegistration />*/}
         </div>
 
         {id ? (
