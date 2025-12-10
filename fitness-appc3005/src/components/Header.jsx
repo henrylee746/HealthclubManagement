@@ -24,13 +24,15 @@ import Link from "next/link";
 const Header = () => {
   return (
     <div className="flex flex-col sm:flex-row py-6 flex-wrap items-center justify-between gap-4 mr-4 text-base font-medium">
-      <div className="flex gap-4 items-center">
-        <Link
-          href="/"
-          className="flex items-center gap-2 ml-4 hover:text-gray-500"
-        >
+      <div className="flex items-center ml-2">
+        <ToggleTheme
+          duration={600}
+          animationType="swipe-up"
+          className="mx-auto"
+        />
+        <Link href="/" className="flex items-center gap-2 hover:text-gray-500">
           <Button variant={"link"}>
-            <div className="flex justify-center items-center gap-2">
+            <div className="flex items-center gap-2">
               <IconHome className="size-6" />
               <span className="text-xl">Home</span>
             </div>
@@ -63,11 +65,6 @@ const Header = () => {
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
-        <ToggleTheme
-          duration={600}
-          animationType="swipe-up"
-          className="bg-gray-100 dark:bg-gray-700"
-        />
       </div>
       {/*
       <Link href="/">
