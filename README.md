@@ -1,8 +1,9 @@
 # Important 
 
-If you're here to grade the assignment, please note some of my newest changes are unrelated to the project and that you will have to go to 
-[this branch to see the actual full project code:](https://github.com/henrylee746/COMP3005FP/tree/9be8d8f0281fae9f4cdf13230b334567757b7a45/fitness-appc3005)
+If you're here to grade the project, please note some of my newest changes (not deployed) are unrelated to the project and that you will have to go to 
+[this branch to see the actual full project code:](https://github.com/henrylee746/COMP3005FP/tree/9be8d8f0281fae9f4cdf13230b334567757b7a45)
 
+To see how to clone this specific version of the repo, go to "Getting Started" below
 
 # COMP 3005 Final Project — Fall 2025
 ## Built with Next.js, Prisma ORM, and PostgreSQL
@@ -25,7 +26,17 @@ You can either use the deployment (highly recommended) or run the project locall
 
 If you'd rather compile and run the production version yourself, you can follow the steps below.
 
-1. First, once you've cloned the repo (remember to use the one from branch 9be8d8f: https://github.com/henrylee746/COMP3005FP/tree/9be8d8f0281fae9f4cdf13230b334567757b7a45/fitness-appc3005) , enter the fitness-appc3005 folder and install all dependencies by doing:
+1. Clone the repo (remember to use the one from branch 9be8d8f: https://github.com/henrylee746/COMP3005FP/tree/9be8d8f0281fae9f4cdf13230b334567757b7a45),
+  
+To do this, run: 
+```bash
+git clone git@github.com:henrylee746/COMP3005FP.git
+cd COMP3005FP      
+git checkout 9be8d8f0281fae9f4cdf13230b334567757b7a45
+``` 
+or you can just download the zip and extract the root directory from there.
+
+2. Enter the fitness-appc3005 folder and install all dependencies by doing:
 
 ```bash
 cd fitness-appc3005
@@ -45,7 +56,7 @@ Prisma schema loaded from prisma\schema.prisma
 
 ✔ Generated Prisma Client (7.0.1) to .\generated\prisma in 29ms
 ```
-2. Finally, run the production server:
+3. Finally, run the production server:
 
 ```bash
 pnpm run build
