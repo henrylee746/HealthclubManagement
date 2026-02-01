@@ -1,5 +1,4 @@
 import prisma from "@/lib/prisma";
-import MemberRegistration from "../(components)/MemberRegistration";
 import MemberSelect from "../(components)/MemberSelect";
 import ProfileManagement from "../(components)/ProfileManagement";
 import MemberDashboard from "../(components)/MemberDashboard";
@@ -20,16 +19,16 @@ export default async function Members({
   //Members panel, no member is selected therefore no param id
   const member = id
     ? await prisma.member.findUnique({
-        where: { id: memberId },
-        include: {
-          metrics: true,
-          bookings: {
-            include: {
-              classSession: true,
-            },
+      where: { id: memberId },
+      include: {
+        metrics: true,
+        bookings: {
+          include: {
+            classSession: true,
           },
         },
-      })
+      },
+    })
     : null;
   const sessions = await prisma.classSession.findMany({
     where: {
@@ -49,9 +48,8 @@ export default async function Members({
         Member's Hub
       </h1>
       <div
-        className={`flex flex-col items-center ${
-          id ? "justify-center" : "justify-start py-8"
-        } font-sans`}
+        className={`flex flex-col items-center ${id ? "justify-center" : "justify-start py-8"
+          } font-sans`}
       >
         <div className="flex gap-4">
           <MemberSelect members={members} id={id} />

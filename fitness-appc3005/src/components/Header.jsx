@@ -57,11 +57,7 @@ const Header = () => {
               </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>
-        ) : (
-          <Link href="/signup">
-            <InteractiveHoverButton>Sign Up</InteractiveHoverButton>
-          </Link>
-        )}
+        ) : null}
       </div>
     </div>
   );
