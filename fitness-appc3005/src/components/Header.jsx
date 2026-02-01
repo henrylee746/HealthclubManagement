@@ -22,6 +22,10 @@ const Header = () => {
       fetchOptions: {
         onSuccess: () => {
           router.push("/");
+          toast.success(`Signed out successfully`);
+        },
+        onError: (error) => {
+          toast.error(`Failed to sign out: ${error.error.message}`);
         },
       },
     });

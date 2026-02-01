@@ -61,7 +61,6 @@ const UserPill = ({ user, text, selected, onClick }: userPillProps) => {
 
 export const Homepage = () => {
   const { data: session, isPending, error } = authClient.useSession();
-
   const [isVisible, setIsVisible] = useState(false);
   const [selectedPill, setSelectedPill] =
     useState<keyof typeof iconMap>("member");
@@ -81,7 +80,11 @@ export const Homepage = () => {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
+          //No need to redirect as this is the homepage
           toast.success(`Signed out successfully`);
+        },
+        onError: (error) => {
+          toast.error(`Failed to sign out: ${error.error.message}`);
         },
       },
     })
@@ -116,7 +119,7 @@ export const Homepage = () => {
               <span className="hidden sm:block">for your fitness club 🏋️‍♂️</span>
             </h1>
 
-            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-6 sm:mb-8 leading-relaxed transition-colors duration-300">
+            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-4 sm:mb-6 leading-relaxed transition-colors duration-300">
               Welcome! This application is
               designed to help you manage your fitness club. It includes
               features for managing members, trainers, bookings, sessions, and
@@ -124,12 +127,17 @@ export const Homepage = () => {
             </p>
             {
               !session && !isPending ? (
-                <Link href="/signup">
-                  <button className="cursor-pointer group inline-flex gap-3 mb-6 items-center px-6 sm:px-8 py-3 sm:py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full font-medium text-base sm:text-lg transition-all duration-200 hover:bg-gray-800 dark:hover:bg-gray-200 hover:scale-105 hover:shadow-lg">
-                    Sign Up
-                    <ArrowRight />
-                  </button>
-                </Link>
+                <div className="flex flex-col">
+                  <Link href="/signup">
+                    <button className=" cursor-pointer group inline-flex gap-3 mb-2 items-center px-6 sm:px-8 py-3 sm:py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full font-medium text-base sm:text-lg transition-all duration-200 hover:bg-gray-800 dark:hover:bg-gray-200 hover:scale-105 hover:shadow-lg">
+                      Sign Up
+                      <ArrowRight />
+                    </button>
+                  </Link>
+                  <Link href="/signin" className="mb-4">
+                    <span className="text-sm text-zinc-600 dark:text-zinc-400 underline underline-offset-4 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors">Or sign in</span>
+                  </Link>
+                </div>
               ) :
                 <button onClick={handleSignOut} className="cursor-pointer group inline-flex gap-3 mb-6 items-center px-6 sm:px-8 py-3 sm:py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full font-medium text-base sm:text-lg transition-all duration-200 hover:bg-gray-800 dark:hover:bg-gray-200 hover:scale-105 hover:shadow-lg">
                   Sign Out
