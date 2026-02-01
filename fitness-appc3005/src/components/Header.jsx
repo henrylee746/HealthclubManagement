@@ -59,7 +59,7 @@ const Header = () => {
                 <FaUserCircle className="size-6" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56 mr-2" align="start">
+            <DropdownMenuContent className="w-56" align="start">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <hr />
               <DropdownMenuGroup className="mt-1">
