@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { IconUserScan } from "@tabler/icons-react";
 import { updateMember, updateMetrics } from "@/lib/actions";
 
-export default function ProfileManagement({ id }: { id: string[] }) {
+export default function ProfileManagement({ userId, memberId }: { userId: string, memberId: number }) {
   return (
     <Card className="w-full xl:max-w-xl lg:max-w-md md:max-w-sm sm:max-w-md max-w-sm">
       <CardHeader>
@@ -28,7 +28,7 @@ export default function ProfileManagement({ id }: { id: string[] }) {
       <CardContent>
         <form action={updateMember}>
           {/*Hidden Input to retrieve memberId, so we know each member to update details*/}
-          <input type="hidden" name="memberId" value={id[0]} />
+          <input type="hidden" name="userId" value={userId} />
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
               <CardTitle>Personal Details</CardTitle>
@@ -54,7 +54,7 @@ export default function ProfileManagement({ id }: { id: string[] }) {
           </Button>
         </form>
         <form action={updateMetrics}>
-          <input type="hidden" name="memberId" value={id[0]} />
+          <input type="hidden" name="memberId" value={memberId} />
           <div className="flex flex-col gap-4 my-4">
             <div className="flex flex-col gap-2">
               <CardTitle>Fitness Details</CardTitle>

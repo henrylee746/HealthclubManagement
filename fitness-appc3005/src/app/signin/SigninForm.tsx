@@ -50,7 +50,6 @@ export default function Login() {
       email,
       password,
     });
-    console.log("Full login response:", response);
     if (response.error) {
       console.log("Error details:", response.error);
       setError(response.error.message || "Something went wrong");

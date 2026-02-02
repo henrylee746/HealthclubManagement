@@ -36,6 +36,7 @@ export type MemberSumAggregateOutputType = {
 
 export type MemberMinAggregateOutputType = {
   id: number | null
+  userId: string | null
   firstName: string | null
   lastName: string | null
   email: string | null
@@ -44,6 +45,7 @@ export type MemberMinAggregateOutputType = {
 
 export type MemberMaxAggregateOutputType = {
   id: number | null
+  userId: string | null
   firstName: string | null
   lastName: string | null
   email: string | null
@@ -52,6 +54,7 @@ export type MemberMaxAggregateOutputType = {
 
 export type MemberCountAggregateOutputType = {
   id: number
+  userId: number
   firstName: number
   lastName: number
   email: number
@@ -70,6 +73,7 @@ export type MemberSumAggregateInputType = {
 
 export type MemberMinAggregateInputType = {
   id?: true
+  userId?: true
   firstName?: true
   lastName?: true
   email?: true
@@ -78,6 +82,7 @@ export type MemberMinAggregateInputType = {
 
 export type MemberMaxAggregateInputType = {
   id?: true
+  userId?: true
   firstName?: true
   lastName?: true
   email?: true
@@ -86,6 +91,7 @@ export type MemberMaxAggregateInputType = {
 
 export type MemberCountAggregateInputType = {
   id?: true
+  userId?: true
   firstName?: true
   lastName?: true
   email?: true
@@ -181,6 +187,7 @@ export type MemberGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type MemberGroupByOutputType = {
   id: number
+  userId: string
   firstName: string
   lastName: string
   email: string
@@ -212,26 +219,31 @@ export type MemberWhereInput = {
   OR?: Prisma.MemberWhereInput[]
   NOT?: Prisma.MemberWhereInput | Prisma.MemberWhereInput[]
   id?: Prisma.IntFilter<"Member"> | number
+  userId?: Prisma.StringFilter<"Member"> | string
   firstName?: Prisma.StringFilter<"Member"> | string
   lastName?: Prisma.StringFilter<"Member"> | string
   email?: Prisma.StringFilter<"Member"> | string
   registeredAt?: Prisma.DateTimeFilter<"Member"> | Date | string
   bookings?: Prisma.BookingListRelationFilter
   metrics?: Prisma.HealthMetricListRelationFilter
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type MemberOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   email?: Prisma.SortOrder
   registeredAt?: Prisma.SortOrder
   bookings?: Prisma.BookingOrderByRelationAggregateInput
   metrics?: Prisma.HealthMetricOrderByRelationAggregateInput
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type MemberWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  userId?: string
   email?: string
   AND?: Prisma.MemberWhereInput | Prisma.MemberWhereInput[]
   OR?: Prisma.MemberWhereInput[]
@@ -241,10 +253,12 @@ export type MemberWhereUniqueInput = Prisma.AtLeast<{
   registeredAt?: Prisma.DateTimeFilter<"Member"> | Date | string
   bookings?: Prisma.BookingListRelationFilter
   metrics?: Prisma.HealthMetricListRelationFilter
-}, "id" | "email">
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+}, "id" | "userId" | "email">
 
 export type MemberOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -261,6 +275,7 @@ export type MemberScalarWhereWithAggregatesInput = {
   OR?: Prisma.MemberScalarWhereWithAggregatesInput[]
   NOT?: Prisma.MemberScalarWhereWithAggregatesInput | Prisma.MemberScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Member"> | number
+  userId?: Prisma.StringWithAggregatesFilter<"Member"> | string
   firstName?: Prisma.StringWithAggregatesFilter<"Member"> | string
   lastName?: Prisma.StringWithAggregatesFilter<"Member"> | string
   email?: Prisma.StringWithAggregatesFilter<"Member"> | string
@@ -274,10 +289,12 @@ export type MemberCreateInput = {
   registeredAt?: Date | string
   bookings?: Prisma.BookingCreateNestedManyWithoutMemberInput
   metrics?: Prisma.HealthMetricCreateNestedManyWithoutMemberInput
+  user: Prisma.UserCreateNestedOneWithoutMemberInput
 }
 
 export type MemberUncheckedCreateInput = {
   id?: number
+  userId: string
   firstName: string
   lastName: string
   email: string
@@ -293,10 +310,12 @@ export type MemberUpdateInput = {
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUpdateManyWithoutMemberNestedInput
   metrics?: Prisma.HealthMetricUpdateManyWithoutMemberNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutMemberNestedInput
 }
 
 export type MemberUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -307,6 +326,7 @@ export type MemberUncheckedUpdateInput = {
 
 export type MemberCreateManyInput = {
   id?: number
+  userId: string
   firstName: string
   lastName: string
   email: string
@@ -322,6 +342,7 @@ export type MemberUpdateManyMutationInput = {
 
 export type MemberUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -330,6 +351,7 @@ export type MemberUncheckedUpdateManyInput = {
 
 export type MemberCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -342,6 +364,7 @@ export type MemberAvgOrderByAggregateInput = {
 
 export type MemberMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -350,6 +373,7 @@ export type MemberMaxOrderByAggregateInput = {
 
 export type MemberMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -363,6 +387,11 @@ export type MemberSumOrderByAggregateInput = {
 export type MemberScalarRelationFilter = {
   is?: Prisma.MemberWhereInput
   isNot?: Prisma.MemberWhereInput
+}
+
+export type MemberNullableScalarRelationFilter = {
+  is?: Prisma.MemberWhereInput | null
+  isNot?: Prisma.MemberWhereInput | null
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -409,16 +438,50 @@ export type MemberUpdateOneRequiredWithoutMetricsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.MemberUpdateToOneWithWhereWithoutMetricsInput, Prisma.MemberUpdateWithoutMetricsInput>, Prisma.MemberUncheckedUpdateWithoutMetricsInput>
 }
 
+export type MemberCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.MemberCreateWithoutUserInput, Prisma.MemberUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.MemberCreateOrConnectWithoutUserInput
+  connect?: Prisma.MemberWhereUniqueInput
+}
+
+export type MemberUncheckedCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.MemberCreateWithoutUserInput, Prisma.MemberUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.MemberCreateOrConnectWithoutUserInput
+  connect?: Prisma.MemberWhereUniqueInput
+}
+
+export type MemberUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.MemberCreateWithoutUserInput, Prisma.MemberUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.MemberCreateOrConnectWithoutUserInput
+  upsert?: Prisma.MemberUpsertWithoutUserInput
+  disconnect?: Prisma.MemberWhereInput | boolean
+  delete?: Prisma.MemberWhereInput | boolean
+  connect?: Prisma.MemberWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MemberUpdateToOneWithWhereWithoutUserInput, Prisma.MemberUpdateWithoutUserInput>, Prisma.MemberUncheckedUpdateWithoutUserInput>
+}
+
+export type MemberUncheckedUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.MemberCreateWithoutUserInput, Prisma.MemberUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.MemberCreateOrConnectWithoutUserInput
+  upsert?: Prisma.MemberUpsertWithoutUserInput
+  disconnect?: Prisma.MemberWhereInput | boolean
+  delete?: Prisma.MemberWhereInput | boolean
+  connect?: Prisma.MemberWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MemberUpdateToOneWithWhereWithoutUserInput, Prisma.MemberUpdateWithoutUserInput>, Prisma.MemberUncheckedUpdateWithoutUserInput>
+}
+
 export type MemberCreateWithoutBookingsInput = {
   firstName: string
   lastName: string
   email: string
   registeredAt?: Date | string
   metrics?: Prisma.HealthMetricCreateNestedManyWithoutMemberInput
+  user: Prisma.UserCreateNestedOneWithoutMemberInput
 }
 
 export type MemberUncheckedCreateWithoutBookingsInput = {
   id?: number
+  userId: string
   firstName: string
   lastName: string
   email: string
@@ -448,10 +511,12 @@ export type MemberUpdateWithoutBookingsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metrics?: Prisma.HealthMetricUpdateManyWithoutMemberNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutMemberNestedInput
 }
 
 export type MemberUncheckedUpdateWithoutBookingsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -465,10 +530,12 @@ export type MemberCreateWithoutMetricsInput = {
   email: string
   registeredAt?: Date | string
   bookings?: Prisma.BookingCreateNestedManyWithoutMemberInput
+  user: Prisma.UserCreateNestedOneWithoutMemberInput
 }
 
 export type MemberUncheckedCreateWithoutMetricsInput = {
   id?: number
+  userId: string
   firstName: string
   lastName: string
   email: string
@@ -498,15 +565,71 @@ export type MemberUpdateWithoutMetricsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUpdateManyWithoutMemberNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutMemberNestedInput
 }
 
 export type MemberUncheckedUpdateWithoutMetricsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutMemberNestedInput
+}
+
+export type MemberCreateWithoutUserInput = {
+  firstName: string
+  lastName: string
+  email: string
+  registeredAt?: Date | string
+  bookings?: Prisma.BookingCreateNestedManyWithoutMemberInput
+  metrics?: Prisma.HealthMetricCreateNestedManyWithoutMemberInput
+}
+
+export type MemberUncheckedCreateWithoutUserInput = {
+  id?: number
+  firstName: string
+  lastName: string
+  email: string
+  registeredAt?: Date | string
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutMemberInput
+  metrics?: Prisma.HealthMetricUncheckedCreateNestedManyWithoutMemberInput
+}
+
+export type MemberCreateOrConnectWithoutUserInput = {
+  where: Prisma.MemberWhereUniqueInput
+  create: Prisma.XOR<Prisma.MemberCreateWithoutUserInput, Prisma.MemberUncheckedCreateWithoutUserInput>
+}
+
+export type MemberUpsertWithoutUserInput = {
+  update: Prisma.XOR<Prisma.MemberUpdateWithoutUserInput, Prisma.MemberUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.MemberCreateWithoutUserInput, Prisma.MemberUncheckedCreateWithoutUserInput>
+  where?: Prisma.MemberWhereInput
+}
+
+export type MemberUpdateToOneWithWhereWithoutUserInput = {
+  where?: Prisma.MemberWhereInput
+  data: Prisma.XOR<Prisma.MemberUpdateWithoutUserInput, Prisma.MemberUncheckedUpdateWithoutUserInput>
+}
+
+export type MemberUpdateWithoutUserInput = {
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookings?: Prisma.BookingUpdateManyWithoutMemberNestedInput
+  metrics?: Prisma.HealthMetricUpdateManyWithoutMemberNestedInput
+}
+
+export type MemberUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutMemberNestedInput
+  metrics?: Prisma.HealthMetricUncheckedUpdateManyWithoutMemberNestedInput
 }
 
 
@@ -551,56 +674,75 @@ export type MemberCountOutputTypeCountMetricsArgs<ExtArgs extends runtime.Types.
 
 export type MemberSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  userId?: boolean
   firstName?: boolean
   lastName?: boolean
   email?: boolean
   registeredAt?: boolean
   bookings?: boolean | Prisma.Member$bookingsArgs<ExtArgs>
   metrics?: boolean | Prisma.Member$metricsArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.MemberCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["member"]>
 
 export type MemberSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  userId?: boolean
   firstName?: boolean
   lastName?: boolean
   email?: boolean
   registeredAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["member"]>
 
 export type MemberSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  userId?: boolean
   firstName?: boolean
   lastName?: boolean
   email?: boolean
   registeredAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["member"]>
 
 export type MemberSelectScalar = {
   id?: boolean
+  userId?: boolean
   firstName?: boolean
   lastName?: boolean
   email?: boolean
   registeredAt?: boolean
 }
 
-export type MemberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "registeredAt", ExtArgs["result"]["member"]>
+export type MemberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "firstName" | "lastName" | "email" | "registeredAt", ExtArgs["result"]["member"]>
 export type MemberInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bookings?: boolean | Prisma.Member$bookingsArgs<ExtArgs>
   metrics?: boolean | Prisma.Member$metricsArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.MemberCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type MemberIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type MemberIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type MemberIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type MemberIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
 
 export type $MemberPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Member"
   objects: {
     bookings: Prisma.$BookingPayload<ExtArgs>[]
     metrics: Prisma.$HealthMetricPayload<ExtArgs>[]
+    /**
+     * 1. PK: id (Int) - Unique identifier for the member (and user)
+     *   2. FK: userId (String) - Link to Better Auth User
+     *   3. onDelete: Cascade - If user is deleted, delete the member
+     */
+    user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
+    userId: string
     firstName: string
     lastName: string
     email: string
@@ -1001,6 +1143,7 @@ export interface Prisma__MemberClient<T, Null = never, ExtArgs extends runtime.T
   readonly [Symbol.toStringTag]: "PrismaPromise"
   bookings<T extends Prisma.Member$bookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Member$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   metrics<T extends Prisma.Member$metricsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Member$metricsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HealthMetricPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1031,6 +1174,7 @@ export interface Prisma__MemberClient<T, Null = never, ExtArgs extends runtime.T
  */
 export interface MemberFieldRefs {
   readonly id: Prisma.FieldRef<"Member", 'Int'>
+  readonly userId: Prisma.FieldRef<"Member", 'String'>
   readonly firstName: Prisma.FieldRef<"Member", 'String'>
   readonly lastName: Prisma.FieldRef<"Member", 'String'>
   readonly email: Prisma.FieldRef<"Member", 'String'>
@@ -1284,6 +1428,10 @@ export type MemberCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensio
    */
   data: Prisma.MemberCreateManyInput | Prisma.MemberCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MemberIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1354,6 +1502,10 @@ export type MemberUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many Members to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MemberIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

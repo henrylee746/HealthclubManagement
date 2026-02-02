@@ -17,11 +17,4 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
-  socialProviders: {
-    google: {
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      //! means "cannot be null or undefined"
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    },
-  },
 });

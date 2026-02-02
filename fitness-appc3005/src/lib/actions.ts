@@ -3,6 +3,36 @@
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
+export async function getMember(userId: string) {
+  const member = await prisma.member.findUnique({
+    where: { userId },
+    include: {
+      metrics: true,
+      bookings: {
+        include: {
+          classSession: true,
+        },
+      },
+    },
+  });
+  return member;
+}
+
+export async function getSessions() {
+  const sessions = await prisma.classSession.findMany({
+    where: {
+      dateTime: {
+        gte: new Date(),
+      },
+    },
+    include: {
+      room: true,
+      trainer: true,
+    },
+  });
+  return sessions;
+}
+
 export async function updateSessionRoom(initialState: any, formData: FormData) {
   const sessionId = formData.get("sessionId");
   const roomId = formData.get("roomId");
@@ -121,13 +151,13 @@ export async function createSession(initialState: any, formData: FormData) {
 
 /*Register New Member*/
 export const registerMember = async (formData: FormData) => {
-  console.log("invoked");
+  const userId = formData.get("userId") as string;
   const email = formData.get("email") as string;
   const firstName = formData.get("firstName") as string;
   const lastName = formData.get("lastName") as string;
 
   await prisma.member.create({
-    data: { email, firstName, lastName },
+    data: { userId, email, firstName, lastName },
   });
   revalidatePath("/member/[[...id]]", "page");
 };
@@ -135,29 +165,51 @@ export const registerMember = async (formData: FormData) => {
 /*Update Profile Details, including making/updating weight metric & target*/
 
 export const updateMember = async (formData: FormData) => {
+  const userId = formData.get("userId") as string;
   const email = formData.get("email") as string | null;
   const firstName = formData.get("firstName") as string | null;
   const lastName = formData.get("lastName") as string | null;
 
-  const id = Number(formData.get("memberId"));
-
   const memberUpdateData: any = {};
+  const userUpdateData: any = {};
 
   if (!email && !firstName && !lastName) return;
+
+  // Update Member fields
   if (email) memberUpdateData.email = email;
   if (firstName) memberUpdateData.firstName = firstName;
   if (lastName) memberUpdateData.lastName = lastName;
 
+  // Update User fields (email and name)
+  if (email) userUpdateData.email = email;
+  if (firstName || lastName) {
+    // Construct full name for User model
+    const member = await prisma.member.findUnique({
+      where: { userId },
+      select: { firstName: true, lastName: true },
+    });
+
+    const updatedFirstName = firstName || member?.firstName || "";
+    const updatedLastName = lastName || member?.lastName || "";
+    userUpdateData.name = `${updatedFirstName} ${updatedLastName}`;
+  }
+
+  // Update both Member and User
   await prisma.member.update({
-    where: { id },
+    where: { userId },
     data: memberUpdateData,
+  });
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: userUpdateData,
   });
 
   revalidatePath("/member/[[...id]]", "page");
 };
 
 export const updateMetrics = async (formData: FormData) => {
-  const id = Number(formData.get("memberId"));
+  const memberId = formData.get("memberId");
 
   const weight = formData.get("currWeight");
   const weightGoal = formData.get("weightTarget");
@@ -168,7 +220,7 @@ export const updateMetrics = async (formData: FormData) => {
 
   if (weight || weightGoal) {
     metricUpdateData.timestamp = new Date();
-    metricUpdateData.memberId = id;
+    metricUpdateData.memberId = Number(memberId);
   }
 
   await prisma.healthMetric.create({

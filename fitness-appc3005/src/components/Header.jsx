@@ -14,6 +14,7 @@ import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { FaUserCircle } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const Header = () => {
   const router = useRouter();
@@ -60,13 +61,12 @@ const Header = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="start">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuLabel>{session.user?.name}</DropdownMenuLabel>
               <hr />
               <DropdownMenuGroup className="mt-1">
-                <Link href="/member">
-                  <DropdownMenuItem>Profile </DropdownMenuItem>
-                </Link>
-
+                {/* <Link href="/member"> */}
+                {/* <DropdownMenuItem>Profile </DropdownMenuItem> */}
+                {/* </Link> */}
                 <DropdownMenuItem onClick={handleSignOut}>
                   Log Out
                 </DropdownMenuItem>

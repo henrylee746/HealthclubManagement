@@ -40,51 +40,50 @@ const FloatingLabelInput: React.FC<{
   rightIcon,
   onRightIconClick,
 }) => {
-  const [isFocused, setIsFocused] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
 
-  return (
-    <div className="relative group">
-      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground transition-colors group-focus-within:text-foreground">
-        {icon}
-      </div>
-      <input
-        id={id}
-        type={type}
-        value={value}
-        onChange={onChange}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        className="flex h-10 w-full rounded-md border border-input bg-background pl-10 pr-10 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 peer placeholder-transparent"
-        placeholder={placeholder}
-        style={
-          {
-            "--tw-ring-color": "hsl(var(--ring))",
-          } as React.CSSProperties
-        }
-        required={true}
-      />
-      <label
-        htmlFor={id}
-        className={`absolute left-10 transition-all duration-200 pointer-events-none text-sm font-medium ${
-          isFocused || value
+    return (
+      <div className="relative group">
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground transition-colors group-focus-within:text-foreground">
+          {icon}
+        </div>
+        <input
+          id={id}
+          type={type}
+          value={value}
+          onChange={onChange}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          className="flex h-10 w-full rounded-md border border-input bg-background pl-10 pr-10 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 peer placeholder-transparent"
+          placeholder={placeholder}
+          style={
+            {
+              "--tw-ring-color": "hsl(var(--ring))",
+            } as React.CSSProperties
+          }
+          required={true}
+        />
+        <label
+          htmlFor={id}
+          className={`absolute left-10 transition-all duration-200 pointer-events-none text-sm font-medium ${isFocused || value
             ? "-top-2 text-xs bg-white dark:bg-black px-2 text-foreground rounded-sm"
             : "top-2.5 text-muted-foreground"
-        }`}
-      >
-        {placeholder}
-      </label>
-      {rightIcon && (
-        <button
-          type="button"
-          onClick={onRightIconClick}
-          className="absolute inset-y-0 right-0 pr-3 flex items-center text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:text-foreground"
+            }`}
         >
-          {rightIcon}
-        </button>
-      )}
-    </div>
-  );
-};
+          {placeholder}
+        </label>
+        {rightIcon && (
+          <button
+            type="button"
+            onClick={onRightIconClick}
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:text-foreground"
+          >
+            {rightIcon}
+          </button>
+        )}
+      </div>
+    );
+  };
 
 // Main Component with shadcn/ui styling
 const Signin: React.FC = () => {
@@ -105,7 +104,6 @@ const Signin: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(email, password, firstName, lastName);
     setError(null);
     setLoading(true);
     // 1. Sign up with Better Auth
@@ -127,6 +125,7 @@ const Signin: React.FC = () => {
 
     // 2. Register as a Member in the fitness app
     const formData = new FormData();
+    formData.append("userId", response.data?.user.id || ""); // Pass userId from Better Auth
     formData.append("email", email);
     formData.append("firstName", firstName);
     formData.append("lastName", lastName);

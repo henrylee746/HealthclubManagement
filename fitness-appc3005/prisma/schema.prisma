@@ -12,12 +12,22 @@ datasource db {
 
 model Member {
   id           Int            @id @default(autoincrement())
+  userId       String         @unique // Link to Better Auth User
   firstName    String
   lastName     String
   email        String         @unique
   registeredAt DateTime       @default(now())
   bookings     Booking[]
   metrics      HealthMetric[]
+
+  /*
+  1. PK: id (Int) - Unique identifier for the member (and user)
+  2. FK: userId (String) - Link to Better Auth User
+  3. onDelete: Cascade - If user is deleted, delete the member
+  */
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId]) //Makes lookup by userId faster
 }
 
 model Trainer {
@@ -108,7 +118,7 @@ view MemberInfo {
 }
 
 model User {
-  id            String    @id
+  id            String    @id //This would be a UUID 
   name          String
   email         String
   emailVerified Boolean   @default(false)
@@ -117,6 +127,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[] // Better Auth sessions
   accounts      Account[]
+  member        Member?   // Optional relation to fitness app Member
 
   @@unique([email])
   @@map("user")

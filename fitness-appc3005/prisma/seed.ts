@@ -13,126 +13,216 @@ const prisma = new PrismaClient({
 async function main() {
   console.log("Seeding database...");
 
-  // Members
-  const members = await prisma.member.createMany({
-    data: [
-      { firstName: "Henry", lastName: "Lee", email: "henry@example.com" },
-      { firstName: "Sarah", lastName: "Kim", email: "sarah@example.com" },
-      { firstName: "Michael", lastName: "Tran", email: "michael@example.com" },
-    ],
+  // Create Users first (Better Auth users)
+  // In production, these would be created via the signup flow
+  // For seeding, we'll create them manually with hashed passwords
+  const user1 = await prisma.user.create({
+    data: {
+      id: "user_henry_001",
+      name: "Henry Lee",
+      email: "henry@example.com",
+      emailVerified: true,
+    },
   });
 
-  // Fetch IDs (createMany doesn't return inserted rows)
-  const createdMembers = await prisma.member.findMany();
+  const user2 = await prisma.user.create({
+    data: {
+      id: "user_sarah_002",
+      name: "Sarah Kim",
+      email: "sarah@example.com",
+      emailVerified: true,
+    },
+  });
+
+  const user3 = await prisma.user.create({
+    data: {
+      id: "user_michael_003",
+      name: "Michael Tran",
+      email: "michael@example.com",
+      emailVerified: true,
+    },
+  });
+
+  console.log("✓ Created users");
+
+  // Now create Members linked to Users
+  const member1 = await prisma.member.create({
+    data: {
+      userId: user1.id,
+      firstName: "Henry",
+      lastName: "Lee",
+      email: "henry@example.com",
+    },
+  });
+
+  const member2 = await prisma.member.create({
+    data: {
+      userId: user2.id,
+      firstName: "Sarah",
+      lastName: "Kim",
+      email: "sarah@example.com",
+    },
+  });
+
+  const member3 = await prisma.member.create({
+    data: {
+      userId: user3.id,
+      firstName: "Michael",
+      lastName: "Tran",
+      email: "michael@example.com",
+    },
+  });
+
+  const createdMembers = [member1, member2, member3];
+  console.log("✓ Created members linked to users");
 
   // Trainers
-  const trainers = await prisma.trainer.createMany({
-    data: [
-      { name: "John Peterson", email: "johnp@example.com" },
-      { name: "Lisa Roberts", email: "lisa@example.com" },
-    ],
+  const trainer1 = await prisma.trainer.create({
+    data: { name: "John Peterson", email: "johnp@example.com" },
   });
 
-  const createdTrainers = await prisma.trainer.findMany();
+  const trainer2 = await prisma.trainer.create({
+    data: { name: "Lisa Roberts", email: "lisa@example.com" },
+  });
+
+  const createdTrainers = [trainer1, trainer2];
+  console.log("✓ Created trainers");
 
   // Rooms
-  const rooms = await prisma.room.createMany({
-    data: [
-      { name: "Studio A", capacity: 20 },
-      { name: "Studio B", capacity: 15 },
-      { name: "Cycling Room", capacity: 12 },
-    ],
+  const room1 = await prisma.room.create({
+    data: { name: "Studio A", capacity: 20 },
   });
 
-  const createdRooms = await prisma.room.findMany();
+  const room2 = await prisma.room.create({
+    data: { name: "Studio B", capacity: 15 },
+  });
+
+  const room3 = await prisma.room.create({
+    data: { name: "Cycling Room", capacity: 12 },
+  });
+
+  const createdRooms = [room1, room2, room3];
+  console.log("✓ Created rooms");
 
   // Class Sessions (fitness classes)
-  const sessions = await prisma.classSession.createMany({
-    data: [
-      {
-        trainerId: createdTrainers[0].id,
-        name: "Lifting with John",
-        roomId: createdRooms[0].id,
-        dateTime: new Date("2025-12-25T10:00:00"),
-        capacity: 20,
-      },
-      {
-        trainerId: createdTrainers[0].id,
-        name: "Yoga with John",
-        roomId: createdRooms[1].id,
-        dateTime: new Date("2025-01-11T14:00:00"),
-        capacity: 15,
-      },
-      {
-        trainerId: createdTrainers[1].id,
-        name: "Calisthenics with Lisa",
-        roomId: createdRooms[2].id,
-        dateTime: new Date("2025-11-29T18:00:00"),
-        capacity: 12,
-      },
-      {
-        trainerId: createdTrainers[1].id,
-        name: "Deep meditation with Lisa",
-        roomId: createdRooms[0].id,
-        dateTime: new Date("2025-01-13T09:00:00"),
-        capacity: 10,
-      },
-    ],
+  const session1 = await prisma.classSession.create({
+    data: {
+      trainerId: createdTrainers[0].id,
+      name: "Lifting with John",
+      roomId: createdRooms[0].id,
+      dateTime: new Date("2025-12-25T10:00:00"),
+      capacity: 20,
+    },
   });
 
-  const createdSessions = await prisma.classSession.findMany();
-
-  // Bookings (avoid duplicates due to @@unique constraint)
-  await prisma.booking.createMany({
-    data: [
-      {
-        memberId: createdMembers[0].id,
-        classSessionId: createdSessions[0].id,
-      },
-      {
-        memberId: createdMembers[1].id,
-        classSessionId: createdSessions[0].id,
-      },
-      {
-        memberId: createdMembers[1].id,
-        classSessionId: createdSessions[2].id,
-      },
-      {
-        memberId: createdMembers[2].id,
-        classSessionId: createdSessions[1].id,
-      },
-    ],
-    skipDuplicates: true,
+  const session2 = await prisma.classSession.create({
+    data: {
+      trainerId: createdTrainers[0].id,
+      name: "Yoga with John",
+      roomId: createdRooms[1].id,
+      dateTime: new Date("2025-01-11T14:00:00"),
+      capacity: 15,
+    },
   });
+
+  const session3 = await prisma.classSession.create({
+    data: {
+      trainerId: createdTrainers[1].id,
+      name: "Calisthenics with Lisa",
+      roomId: createdRooms[2].id,
+      dateTime: new Date("2025-11-29T18:00:00"),
+      capacity: 12,
+    },
+  });
+
+  const session4 = await prisma.classSession.create({
+    data: {
+      trainerId: createdTrainers[1].id,
+      name: "Deep meditation with Lisa",
+      roomId: createdRooms[0].id,
+      dateTime: new Date("2025-01-13T09:00:00"),
+      capacity: 10,
+    },
+  });
+
+  const createdSessions = [session1, session2, session3, session4];
+  console.log("✓ Created class sessions");
+
+  // Bookings (members booking class sessions)
+  await prisma.booking.create({
+    data: {
+      memberId: createdMembers[0].id,
+      classSessionId: createdSessions[0].id,
+    },
+  });
+
+  await prisma.booking.create({
+    data: {
+      memberId: createdMembers[1].id,
+      classSessionId: createdSessions[0].id,
+    },
+  });
+
+  await prisma.booking.create({
+    data: {
+      memberId: createdMembers[1].id,
+      classSessionId: createdSessions[2].id,
+    },
+  });
+
+  await prisma.booking.create({
+    data: {
+      memberId: createdMembers[2].id,
+      classSessionId: createdSessions[1].id,
+    },
+  });
+
+  console.log("✓ Created bookings");
 
   // Health Metrics
-  await prisma.healthMetric.createMany({
-    data: [
-      {
-        memberId: createdMembers[0].id,
-        weight: 184,
-        weightGoal: 175,
-      },
-      {
-        memberId: createdMembers[0].id,
-        weight: 186,
-        weightGoal: 176,
-        timestamp: new Date("2025-01-05T12:00:00"),
-      },
-      {
-        memberId: createdMembers[1].id,
-        weight: 150,
-        weightGoal: 145,
-      },
-      {
-        memberId: createdMembers[2].id,
-        weight: 170,
-        weightGoal: 175,
-      },
-    ],
+  await prisma.healthMetric.create({
+    data: {
+      memberId: createdMembers[0].id,
+      weight: 184,
+      weightGoal: 175,
+    },
   });
 
-  console.log("Database seed completed.");
+  await prisma.healthMetric.create({
+    data: {
+      memberId: createdMembers[0].id,
+      weight: 186,
+      weightGoal: 176,
+      timestamp: new Date("2025-01-05T12:00:00"),
+    },
+  });
+
+  await prisma.healthMetric.create({
+    data: {
+      memberId: createdMembers[1].id,
+      weight: 150,
+      weightGoal: 145,
+    },
+  });
+
+  await prisma.healthMetric.create({
+    data: {
+      memberId: createdMembers[2].id,
+      weight: 170,
+      weightGoal: 175,
+    },
+  });
+
+  console.log("✓ Created health metrics");
+
+  console.log("\n✅ Database seed completed successfully!");
+  console.log("   - 3 Users");
+  console.log("   - 3 Members");
+  console.log("   - 2 Trainers");
+  console.log("   - 3 Rooms");
+  console.log("   - 4 Class Sessions");
+  console.log("   - 4 Bookings");
+  console.log("   - 4 Health Metrics");
 }
 
 main()
