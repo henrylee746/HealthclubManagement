@@ -87,7 +87,7 @@ const FloatingLabelInput: React.FC<{
   };
 
 // Main Component with shadcn/ui styling
-const Signin: React.FC = () => {
+const SignupForm: React.FC = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [userData, setUserData] = useState<{
@@ -114,19 +114,20 @@ const Signin: React.FC = () => {
     e.preventDefault();
     try {
       // 1. Sign up with Better Auth
-      await authClient.signUp.email({
+      const { data, error } = await authClient.signUp.email({
         email: userData.email,
         password: userData.password,
         name: `${userData.firstName} ${userData.lastName}`,
       }, {
-        onResponse: (response) => {
+        onFinish: () => {
           setLoading(false);
-          console.log("Full signup response:", response);
         },
         onRequest: () => {
+          setError(null);
           setLoading(true);
         },
         onSuccess: async (response) => {
+          console.log("Full signup response:", response);
           // 2. Register as a Member in the fitness app
           const formData = new FormData();
           formData.append("userId", response.data?.user.id || ""); // Pass userId from Better Auth
@@ -289,4 +290,4 @@ const Signin: React.FC = () => {
   );
 };
 
-export default Signin;
+export default SignupForm;

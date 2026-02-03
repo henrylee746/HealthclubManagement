@@ -28,8 +28,8 @@ export const auth = betterAuth({
   emailVerification: {
     sendVerificationEmail: async ({ user, url, token }, request) => {
       const name = user.name.split(" ")[0];
-      await resend.emails.send({
-        from: "Henry Lee <henry@fitnessapp.com>",
+      const { data, error } = await resend.emails.send({
+        from: "onboarding@resend.dev", // Resend's test domain
         to: user.email,
         subject: "Verify your email address",
         react: EmailTemplate({
@@ -37,6 +37,12 @@ export const auth = betterAuth({
           verificationUrl: url,
         }),
       });
+
+      if (error) {
+        console.error("Failed to send verification email:", error);
+        throw new Error("Failed to send verification email");
+      }
+      console.log("Verification email sent successfully:", data);
     },
     async afterEmailVerification(user, request) {
       console.log(`${user.email} has been successfully verified!`);

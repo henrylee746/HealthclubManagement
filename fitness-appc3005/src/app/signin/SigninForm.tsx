@@ -35,7 +35,6 @@ const GoogleIcon = () => (
 // --- Main App Component ---
 export default function Login() {
   const router = useRouter();
-
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,20 +43,30 @@ export default function Login() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(null);
-    setLoading(true);
-    const response = await authClient.signIn.email({
+    const { data, error } = await authClient.signIn.email({
       email,
       password,
+    }, {
+      onRequest: () => {
+        setError(null);
+        setLoading(true);
+      },
+      onSuccess: (response) => {
+        console.log("Full login response:", response);
+      },
+      onError: (error) => {
+        console.log("Error details:", error);
+        setError(error.error.message || "Something went wrong");
+      },
+      onResponse: (response) => {
+        console.log("Full login response:", response);
+      },
+      onFinish: () => {
+        setLoading(false);
+        toast.success(`Welcome back, ${data?.user.name}`);
+        router.push("/member");
+      },
     });
-    if (response.error) {
-      console.log("Error details:", response.error);
-      setError(response.error.message || "Something went wrong");
-    } else {
-      toast.success(`Welcome back, ${response.data.user.name}`);
-      router.push("/member");
-    }
-    setLoading(false);
   };
 
   return (
