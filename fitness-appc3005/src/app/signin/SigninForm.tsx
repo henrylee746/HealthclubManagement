@@ -43,7 +43,7 @@ export default function Login() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { data, error } = await authClient.signIn.email({
+    await authClient.signIn.email({
       email,
       password,
     }, {
@@ -52,20 +52,15 @@ export default function Login() {
         setLoading(true);
       },
       onSuccess: (response) => {
-        console.log("Full login response:", response);
+        toast.success(`Welcome back, ${response.data?.user.name}`);
+        router.push("/member");
       },
       onError: (error) => {
-        console.log("Error details:", error);
         setError(error.error.message || "Something went wrong");
         setLoading(false);
       },
-      onResponse: (response) => {
-        console.log("Full login response:", response);
-      },
       onFinish: () => {
-        setLoading(false);
-        toast.success(`Welcome back, ${data?.user.name}`);
-        router.push("/member");
+        setLoading(false); // Always runs - good for cleanup
       },
     });
   };

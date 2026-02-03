@@ -7,7 +7,6 @@ import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { registerMember } from "@/lib/actions";
 import { Loader } from "@/components/ui/loader";
-import VerificationPage from "./verification/page";
 
 const UserIcon: React.FC = () => <LuUser size={16} />;
 
@@ -114,20 +113,17 @@ const SignupForm: React.FC = () => {
     e.preventDefault();
     try {
       // 1. Sign up with Better Auth
-      const { data, error } = await authClient.signUp.email({
+      await authClient.signUp.email({
         email: userData.email,
         password: userData.password,
         name: `${userData.firstName} ${userData.lastName}`,
+        callbackURL: "/member", // Redirect here after email verification
       }, {
-        onFinish: () => {
-          setLoading(false);
-        },
         onRequest: () => {
           setError(null);
           setLoading(true);
         },
         onSuccess: async (response) => {
-          console.log("Full signup response:", response);
           // 2. Register as a Member in the fitness app
           const formData = new FormData();
           formData.append("userId", response.data?.user.id || ""); // Pass userId from Better Auth
@@ -137,7 +133,7 @@ const SignupForm: React.FC = () => {
           try {
             await registerMember(formData);
             // 3. Redirect to member page after successful signup
-            toast.success(`Welcome, ${userData.firstName} ${userData.lastName}`);
+            toast.info(`Please check your email for a verification link.`);
             router.push("/signup/verification");
           }
           catch (error) {
@@ -148,6 +144,9 @@ const SignupForm: React.FC = () => {
         },
         onError: (ctx) => {
           setError(ctx.error.message || "Something went wrong");
+          setLoading(false);
+        },
+        onFinish: () => {
           setLoading(false);
         },
       });
