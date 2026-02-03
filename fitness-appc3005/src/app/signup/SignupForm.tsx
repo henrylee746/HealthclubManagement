@@ -7,6 +7,7 @@ import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { registerMember } from "@/lib/actions";
 import { Loader } from "@/components/ui/loader";
+import VerificationPage from "./verification/page";
 
 const UserIcon: React.FC = () => <LuUser size={16} />;
 
@@ -89,10 +90,17 @@ const FloatingLabelInput: React.FC<{
 const Signin: React.FC = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
+  const [userData, setUserData] = useState<{
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+  }>({
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+  });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -104,44 +112,50 @@ const Signin: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(null);
-    setLoading(true);
-    // 1. Sign up with Better Auth
-    const response = await authClient.signUp.email({
-      email,
-      password,
-      name: `${firstName} ${lastName}`,
-      //callbacks don't work out of the box for signups
-    });
-    console.log("Full signup response:", response);
-
-    if (response.error) {
-      console.log("Error details:", response.error);
-      setError(response.error.message || "Something went wrong");
-      setLoading(false);
-
-      return; // Stop here if auth signup fails
-    }
-
-    // 2. Register as a Member in the fitness app
-    const formData = new FormData();
-    formData.append("userId", response.data?.user.id || ""); // Pass userId from Better Auth
-    formData.append("email", email);
-    formData.append("firstName", firstName);
-    formData.append("lastName", lastName);
     try {
-      await registerMember(formData);
-    } catch (error) {
+      // 1. Sign up with Better Auth
+      await authClient.signUp.email({
+        email: userData.email,
+        password: userData.password,
+        name: `${userData.firstName} ${userData.lastName}`,
+      }, {
+        onResponse: (response) => {
+          setLoading(false);
+          console.log("Full signup response:", response);
+        },
+        onRequest: () => {
+          setLoading(true);
+        },
+        onSuccess: async (response) => {
+          // 2. Register as a Member in the fitness app
+          const formData = new FormData();
+          formData.append("userId", response.data?.user.id || ""); // Pass userId from Better Auth
+          formData.append("email", userData.email);
+          formData.append("firstName", userData.firstName);
+          formData.append("lastName", userData.lastName);
+          try {
+            await registerMember(formData);
+            // 3. Redirect to member page after successful signup
+            toast.success(`Welcome, ${userData.firstName} ${userData.lastName}`);
+            router.push("/signup/verification");
+          }
+          catch (error) {
+            setError("Failed to register member");
+            setLoading(false);
+          }
+
+        },
+        onError: (ctx) => {
+          setError(ctx.error.message || "Something went wrong");
+          setLoading(false);
+        },
+      });
+    }
+    catch (error) {
       setError("Failed to register member");
       setLoading(false);
-
       return;
     }
-
-    // 3. Redirect to member page after successful signup
-    toast.success(`Welcome, ${firstName} ${lastName}`);
-    router.push("/member");
-    setLoading(false);
   };
 
   const handleGoogleSubmit = async () => {
@@ -178,8 +192,8 @@ const Signin: React.FC = () => {
                 <FloatingLabelInput
                   id="firstName"
                   type="text"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  value={userData.firstName}
+                  onChange={(e) => setUserData({ ...userData, firstName: e.target.value })}
                   placeholder="First Name"
                   icon={<UserIcon />}
                 />
@@ -188,8 +202,8 @@ const Signin: React.FC = () => {
                 <FloatingLabelInput
                   id="lastName"
                   type="text"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  value={userData.lastName}
+                  onChange={(e) => setUserData({ ...userData, lastName: e.target.value })}
                   placeholder="Last Name"
                   icon={<UserIcon />}
                 />
@@ -200,8 +214,8 @@ const Signin: React.FC = () => {
                 <FloatingLabelInput
                   id="email"
                   type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={userData.email}
+                  onChange={(e) => setUserData({ ...userData, email: e.target.value })}
                   placeholder="Email"
                   icon={<MailIcon />}
                 />
@@ -212,8 +226,8 @@ const Signin: React.FC = () => {
                 <FloatingLabelInput
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={userData.password}
+                  onChange={(e) => setUserData({ ...userData, password: e.target.value })}
                   placeholder="Password"
                   icon={<LockIcon />}
                   rightIcon={showPassword ? <EyeOffIcon /> : <EyeIcon />}

@@ -11,6 +11,7 @@ import { TrainerCards } from "@/components/TrainerCards";
 import { AdminCards } from "@/components/AdminCards";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
+import Loading from "./loading";
 
 const MemberIcon = () => <FaUser />;
 
@@ -62,10 +63,12 @@ const UserPill = ({ user, text, selected, onClick }: userPillProps) => {
 export const Homepage = () => {
   const { data: session, isPending, error } = authClient.useSession();
   const [isVisible, setIsVisible] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const [selectedPill, setSelectedPill] =
     useState<keyof typeof iconMap>("member");
 
   useEffect(() => {
+    setIsMounted(true);
     const timer = setTimeout(() => setIsVisible(true), 100);
     return () => clearTimeout(timer);
   }, []);
@@ -90,8 +93,7 @@ export const Homepage = () => {
     })
   };
 
-  if (isPending) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (!isMounted) return <Loading />;
 
   return (
     <div className="font-sans h-full">
@@ -126,7 +128,7 @@ export const Homepage = () => {
               health metrics.
             </p>
             {
-              !session && !isPending ? (
+              !session && !isPending && isMounted ? ( //Prevent flickering
                 <div className="flex flex-col">
                   <Link href="/signup">
                     <button className=" cursor-pointer group inline-flex gap-3 mb-2 items-center px-6 sm:px-8 py-3 sm:py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full font-medium text-base sm:text-lg transition-all duration-200 hover:bg-gray-800 dark:hover:bg-gray-200 hover:scale-105 hover:shadow-lg">
