@@ -12,9 +12,9 @@ import {
 import { ToggleTheme } from "./ui/toggle-theme";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
-import { FaUserCircle } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { UserAvatar } from "@daveyplate/better-auth-ui";
 
 const Header = () => {
   const router = useRouter();
@@ -54,10 +54,8 @@ const Header = () => {
       <div className="flex flex-col sm:flex-row gap-2 items-center">
         {!isPending && session ? (
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline">
-                <FaUserCircle className="size-6" />
-              </Button>
+            <DropdownMenuTrigger asChild className="cursor-pointer">
+              <UserAvatar user={session.user} className="p-5" />
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="start">
               <DropdownMenuLabel>{session.user?.name}</DropdownMenuLabel>
