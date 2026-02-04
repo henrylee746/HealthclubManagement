@@ -1,7 +1,28 @@
 import GroupClass from "./(components)/GroupClass";
 import MemberSearch from "./(components)/MemberSearch";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-export default function Trainer() {
+export default async function Trainer() {
+  const data = await auth.api.getSession({
+    headers: await headers()
+  })
+
+  if (!data?.session) {
+    return <div className="min-h-[80vh] flex flex-col gap-2 items-center justify-center p-6 text-center text-2xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">Not Authorized. Please sign in to access your account.
+      <Button asChild>
+        <Link href="/signin">Sign in</Link>
+      </Button>
+    </div>;
+  }
+
+  const { user } = data;
+  if (!user) {
+    return <div className="text-center text-2xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">User not found.</div>;
+  }
+
   return (
     <>
       <h1 className="max-w-s mb-4 text-center text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">

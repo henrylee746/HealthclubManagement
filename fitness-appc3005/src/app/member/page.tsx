@@ -4,6 +4,8 @@ import MemberDashboard from "./(components)/MemberDashboard";
 import GroupClass from "./(components)/GroupClass";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default async function Members() {
   const data = await auth.api.getSession({
@@ -11,7 +13,11 @@ export default async function Members() {
   })
 
   if (!data?.session) {
-    return <div className="text-center text-2xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">Not Authorized. Please sign in to access your account.</div>;
+    return <div className="min-h-[80vh] flex flex-col gap-2 items-center justify-center p-6 text-center text-2xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">Not Authorized. Please sign in to access your account.
+      <Button asChild>
+        <Link href="/signin">Sign in</Link>
+      </Button>
+    </div>;
   }
 
   const { user } = data;
