@@ -138,4 +138,3 @@ export default function Verify({ email }: { email: string }) {
         </div>
     );
 }
-
